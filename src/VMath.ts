@@ -64,3 +64,10 @@ export function normalized(v: V): V {
 export function reflect(ray: V, normal: V): V {
 	return subtract(ray, multiply(normal, 2 * dot(ray, normal)));
 }
+
+export function rotate(v: V, angle: number): V {
+	return {
+		x: v.x * Math.cos(angle) - v.y * Math.sin(angle),
+		y: v.y * Math.cos(angle) + v.x * Math.sin(angle),
+	};
+}
