@@ -52,7 +52,9 @@ export class GameScene extends GameObject {
 
 	bg: TilingSprite;
 
-	compass: TilingSprite;
+	uiCompass: TilingSprite;
+
+	uiMinimap: Graphics = new Graphics();
 
 	fg: TilingSprite;
 
@@ -77,9 +79,17 @@ export class GameScene extends GameObject {
 
 		this.bg = new TilingSprite(tex('bg'), size.x, size.y);
 		const texCompass = tex('compass');
-		this.compass = new TilingSprite(texCompass, size.x / 2, texCompass.height);
-		this.compass.anchor.x = 0.5;
-		this.compass.x = size.x / 2;
+		this.uiCompass = new TilingSprite(
+			texCompass,
+			size.x / 2,
+			texCompass.height
+		);
+		this.uiCompass.anchor.x = 0.5;
+		this.uiCompass.x = size.x / 2;
+
+		this.uiMinimap.x = 10;
+		this.uiMinimap.y = 10;
+
 		this.fg = new TilingSprite(tex('fg'), size.x, size.y);
 		this.scripts.push(
 			(this.animatorBg = new Animator(this, { spr: this.bg, freq: 1 / 800 }))
@@ -151,7 +161,8 @@ export class GameScene extends GameObject {
 		this.container.addChild(this.containerUI);
 
 		this.containerUI.addChild(this.fg);
-		this.containerUI.addChild(this.compass);
+		this.containerUI.addChild(this.uiCompass);
+		this.containerUI.addChild(this.uiMinimap);
 
 		this.container.interactiveChildren = false;
 		// @ts-ignore
@@ -200,7 +211,7 @@ export class GameScene extends GameObject {
 			const movement = input.move;
 			this.player.transform.x += Math.sin(this.rotationField) * movement.y * 4;
 			this.player.transform.y += Math.cos(this.rotationField) * movement.y * 4;
-			this.rotationField += -movement.x / 10;
+			this.rotationField += -movement.x / 20;
 		}
 
 		const mp = magnitude2(this.player.transform);
@@ -213,8 +224,8 @@ export class GameScene extends GameObject {
 		this.bg.tilePosition.x =
 			(this.rotationField / Math.PI / 2) * this.bg.texture.width +
 			curTime / 1000;
-		this.compass.tilePosition.x =
-			(this.rotationField / Math.PI) * 0.5 * this.compass.texture.width;
+		this.uiCompass.tilePosition.x =
+			(this.rotationField / Math.PI) * 0.5 * this.uiCompass.texture.width;
 
 		const origin = this.player.display.container.position;
 
@@ -254,38 +265,41 @@ export class GameScene extends GameObject {
 			};
 		};
 
-		this.graphics.clear();
-		// this.graphics.beginFill(0x0000ff);
-		// this.fieldObjects.forEach((i) => {
-		// 	this.graphics.drawCircle(i.transform.x, i.transform.y, 5);
-		// });
-		// this.graphics.endFill();
-		this.graphics.lineStyle(2, 0xffffff);
-		this.graphics.drawCircle(0, 0, this.fieldRadius);
-		this.graphics.lineStyle(0);
-		this.graphics.beginFill(0x00ff00);
-		this.graphics.drawCircle(
-			this.player.transform.x,
-			this.player.transform.y,
-			5
+		const minimapScale = (size.y / (this.fieldRadius * 2)) * 0.2;
+		this.uiMinimap.clear();
+		this.uiMinimap.lineStyle(1, 0xffffff);
+		this.uiMinimap.beginFill(0, 0.75);
+		this.uiMinimap.drawCircle(0, 0, this.fieldRadius * minimapScale);
+		this.uiMinimap.lineStyle(0);
+		this.uiMinimap.beginFill(0x00ff00);
+		this.uiMinimap.drawCircle(
+			this.player.transform.x * minimapScale,
+			this.player.transform.y * minimapScale,
+			2
 		);
-		this.graphics.endFill();
-		this.graphics.lineStyle(2, 0x00ff00);
-		this.graphics.moveTo(this.player.transform.x, this.player.transform.y);
-		this.graphics.lineTo(
-			this.player.transform.x - Math.sin(this.rotationField) * 50,
-			this.player.transform.y - Math.cos(this.rotationField) * 50
+		this.uiMinimap.endFill();
+		this.uiMinimap.lineStyle(1, 0x00ff00);
+		this.uiMinimap.moveTo(
+			this.player.transform.x * minimapScale,
+			this.player.transform.y * minimapScale
 		);
-		this.graphics.lineStyle(0);
-		this.graphics.endFill();
-		this.graphics.beginFill(0xff0000);
-		this.graphics.drawCircle(this.enemy.transform.x, this.enemy.transform.y, 5);
-		this.graphics.endFill();
-
-		this.graphics.x = size.x / 2;
-		this.graphics.y = size.y / 2;
-		this.graphics.scale.x = this.graphics.scale.y =
-			size.y / (this.fieldRadius * 2);
+		this.uiMinimap.lineTo(
+			(this.player.transform.x - Math.sin(this.rotationField) * 100) *
+				minimapScale,
+			(this.player.transform.y - Math.cos(this.rotationField) * 100) *
+				minimapScale
+		);
+		this.uiMinimap.lineStyle(0);
+		this.uiMinimap.endFill();
+		this.uiMinimap.beginFill(0xff0000);
+		this.uiMinimap.drawCircle(
+			this.enemy.transform.x * minimapScale,
+			this.enemy.transform.y * minimapScale,
+			2
+		);
+		this.uiMinimap.endFill();
+		this.uiMinimap.x = 10 + this.uiMinimap.width / 2;
+		this.uiMinimap.y = 10 + this.uiMinimap.height / 2;
 
 		// player animation
 		if (Math.abs(input.move.x) > 0) {
