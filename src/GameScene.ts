@@ -278,30 +278,6 @@ export class GameScene extends GameObject {
 		this.graphics.drawCircle(this.enemy.transform.x, this.enemy.transform.y, 5);
 		this.graphics.endFill();
 
-		// this.graphics.beginFill(0x0000ff, 0.5);
-		// this.fieldObjects.forEach((i) => {
-		// 	this.graphics.drawCircle(i.transform.x, i.transform.y, 5);
-		// });
-		// this.graphics.endFill();
-		// this.graphics.beginFill(0xff0000, 0.5);
-		// this.graphics.drawCircle(0, 0, 5);
-		// this.graphics.endFill();
-		// this.graphics.lineStyle(2, 0xff0000, 0.5);
-		// this.graphics.moveTo(0, 0);
-		// this.graphics.lineTo(
-		// 	threed(this.enemy.transform).x,
-		// 	threed(this.enemy.transform).y
-		// );
-		// this.graphics.lineStyle(0);
-		// this.graphics.endFill();
-		// this.graphics.beginFill(0x00ff00, 0.5);
-		// this.graphics.drawCircle(
-		// 	threed(this.enemy.transform).x,
-		// 	threed(this.enemy.transform).y,
-		// 	5
-		// );
-		// this.graphics.endFill();
-
 		this.graphics.x = size.x / 2;
 		this.graphics.y = size.y / 2;
 		this.graphics.scale.x = this.graphics.scale.y =
