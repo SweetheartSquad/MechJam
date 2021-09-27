@@ -32,7 +32,9 @@ export class FieldObject extends GameObject {
 			this.spr.filters.unshift(new OutlineFilter(1, 0xffffff));
 		}
 		this.display.container.addChild(this.spr);
-		this.scripts.push((this.animator = new Animator(this, { spr: this.spr })));
+		this.scripts.push(
+			(this.animator = new Animator(this, { spr: this.spr, freq: 1 / 300 }))
+		);
 	}
 
 	update() {
