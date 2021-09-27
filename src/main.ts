@@ -69,15 +69,15 @@ export function getInput(): {
 			gamepads.isJustDown(Buttons.BACK) ||
 			keys.isJustDown(KEYS.ESCAPE),
 		interact:
-			gamepads.isJustDown(Buttons.A) ||
-			gamepads.isJustDown(Buttons.B) ||
-			gamepads.isJustDown(Buttons.X) ||
-			gamepads.isJustDown(Buttons.Y) ||
-			keys.isJustDown(KEYS.SPACE) ||
-			keys.isJustDown(KEYS.E) ||
-			keys.isJustDown(KEYS.Z) ||
-			keys.isJustDown(KEYS.X) ||
-			keys.isJustDown(KEYS.ENTER),
+			gamepads.isDown(Buttons.A) ||
+			gamepads.isDown(Buttons.B) ||
+			gamepads.isDown(Buttons.X) ||
+			gamepads.isDown(Buttons.Y) ||
+			keys.isDown(KEYS.SPACE) ||
+			keys.isDown(KEYS.E) ||
+			keys.isDown(KEYS.Z) ||
+			keys.isDown(KEYS.X) ||
+			keys.isDown(KEYS.ENTER),
 	};
 
 	if (
