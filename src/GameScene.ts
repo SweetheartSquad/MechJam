@@ -152,6 +152,10 @@ export class GameScene extends GameObject {
 
 		this.containerUI.addChild(this.fg);
 		this.containerUI.addChild(this.compass);
+
+		this.container.interactiveChildren = false;
+		// @ts-ignore
+		this.container.accessibleChildren = false;
 	}
 
 	containerField = new Container();
