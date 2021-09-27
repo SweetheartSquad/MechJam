@@ -218,10 +218,10 @@ export class GameScene extends GameObject {
 			const relative = subtract(pos, this.player.transform);
 			const rotated = rotate(relative, this.rotationField);
 			const near = 0.15;
-			const horizon = 0.9;
+			const far = this.fieldRadius / 2;
+			const horizon = 0.66;
 			// bob
 			// near += Math.sin(curTime / 100) * 0.002;
-			const far = this.fieldRadius;
 
 			let { y } = rotated;
 			y /= size.y;
