@@ -283,6 +283,7 @@ export class GameScene extends GameObject {
 		this.graphics.scale.x = this.graphics.scale.y =
 			size.y / (this.fieldRadius * 2);
 
+		// player animation
 		if (Math.abs(input.move.x) > 0) {
 			this.player.animator.setAnimation('mech_run');
 			this.player.spr.scale.x =
