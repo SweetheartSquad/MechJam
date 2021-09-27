@@ -1,9 +1,18 @@
+import { Texture } from 'pixi.js';
 import { FieldObject } from './FieldObject';
+import { GameScene } from './GameScene';
+import { getActiveScene } from './main';
 import { size } from './size';
 
 export class FieldObjectPlayer extends FieldObject {
+	animPrev?: Texture;
+
 	update() {
+		this.animPrev = this.spr.texture;
 		super.update();
+		if (this.animPrev !== this.spr.texture) {
+			(getActiveScene() as GameScene).kick(0, 2);
+		}
 		this.display.container.x = size.x / 2;
 		this.display.container.y = size.y;
 		this.display.container.scale.x = this.display.container.scale.y = 1;
