@@ -3,6 +3,7 @@ precision mediump float;
 varying vec2 vTextureCoord;
 
 uniform sampler2D uSampler;
+uniform vec2 uSize;
 uniform sampler2D ditherGridMap;
 
 void main(void) {
@@ -13,7 +14,7 @@ void main(void) {
 	vec4 orig = texture2D(uSampler, vTextureCoord);
 
 	// get dither limit
-	vec2 p = gl_FragCoord.xy / 4.0;
+	vec2 p = gl_FragCoord.xy / uSize;
 	float f = texture2D(ditherGridMap, p).r;
 
 	// dither alpha
