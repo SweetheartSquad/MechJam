@@ -10,7 +10,11 @@ export class FieldObjectPlayer extends FieldObject {
 	update() {
 		this.animPrev = this.spr.texture;
 		super.update();
-		if (this.animPrev !== this.spr.texture) {
+		if (
+			this.animPrev !== this.spr.texture &&
+			this.animator.frame === 0 &&
+			!this.animator.animation.includes('idle')
+		) {
 			(getActiveScene() as GameScene).kick(0, 2);
 		}
 		this.display.container.x = size.x / 2;
