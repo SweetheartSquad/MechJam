@@ -57,7 +57,7 @@ class Game {
 				.split(/\r?\n/)
 				.map((i) => ({
 					url: `assets/${i}`,
-					name: i.split('/').pop()?.split('.')[0] || i,
+					name: i.split('/').pop()?.split('.').slice(0, -1).join('.') || i,
 				}));
 			this.app.loader.reset();
 			this.app.loader.add(assetResources);
