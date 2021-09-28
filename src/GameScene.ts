@@ -304,8 +304,6 @@ export class GameScene extends GameObject {
 		if (Math.abs(input.move.x) > 0) {
 			this.player.animator.freq = 1 / 300;
 			this.player.animator.setAnimation('mech_run');
-			this.player.spr.scale.x =
-				Math.abs(this.player.spr.scale.x) * Math.sign(input.move.x);
 		} else if (Math.abs(input.move.y) > 0) {
 			this.player.animator.freq = 1 / 300;
 			this.player.animator.setAnimation('mech_forward');
