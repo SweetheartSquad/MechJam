@@ -100,7 +100,6 @@ export class GameScene extends GameObject {
 
 		this.screenFilter = new ScreenFilter();
 		this.screenFilter.uniforms.overlay = [0, 0, 0, 1];
-		this.screenFilter.enabled = false;
 		this.camera.display.container.filters = [this.screenFilter];
 		this.blackout();
 
