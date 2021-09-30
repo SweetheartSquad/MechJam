@@ -4,6 +4,7 @@ import { BitmapText, Container, Graphics, TilingSprite } from 'pixi.js';
 import { getAlphaFilter } from './AlphaFilter';
 import { Camera } from './Camera';
 import { FieldObject } from './FieldObject';
+import { FieldObjectMech } from './FieldObjectMech';
 import { FieldObjectPlayer } from './FieldObjectPlayer';
 import { filterTextOutline, fontLog } from './font';
 import { game, resources } from './Game';
@@ -140,14 +141,15 @@ export class GameScene extends GameObject {
 			this.containerField.addChild(fo.display.container);
 			this.fieldObjects.push(fo);
 		}
-		const mech = new FieldObject('mech', true);
+		const mech = new FieldObjectMech('rhinobot');
 		mech.transform.x = this.fieldRadius;
 		this.containerField.addChild(mech.display.container);
 		this.fieldObjects.push(mech);
 
-		this.player = new FieldObjectPlayer('mech', true);
-		this.enemy = new FieldObject('mech', true);
-		this.enemy.spr.tint = 0xff0000;
+		this.player = new FieldObjectPlayer('rhinobot');
+		this.enemy = new FieldObjectMech('rhinobot');
+		this.enemy.sprLegs.tint = 0xff0000;
+		this.enemy.sprTorso.tint = 0xff0000;
 		this.enemy.transform.x = 30;
 		this.enemy.transform.y = 30;
 		this.containerField.addChild(this.player.display.container);
@@ -171,7 +173,7 @@ export class GameScene extends GameObject {
 
 	player: FieldObjectPlayer;
 
-	enemy: FieldObject;
+	enemy: FieldObjectMech;
 
 	fieldObjects: FieldObject[] = [];
 
@@ -300,24 +302,8 @@ export class GameScene extends GameObject {
 		this.uiMinimap.y = 10 + this.uiMinimap.height / 2;
 
 		// player animation
-		if (Math.abs(input.move.x) > 0) {
-			this.player.animatorLegs.setAnimation('rhinobot_strafeRight.', {
-				1: 2,
-				2: 2,
-				15: 2,
-				16: 2,
-			});
-			this.player.sprLegs.scale.x = Math.sign(input.move.x);
-			this.player.animatorLegs.freq = 1 / 50;
-		} else if (Math.abs(input.move.y) > 0) {
-			this.player.animatorLegs.freq = 1 / 300;
-			this.player.sprLegs.scale.x = 1;
-			this.player.animatorLegs.setAnimation('mech_forward');
-		} else {
-			this.player.animatorLegs.setAnimation('rhinobot_legs_idle.');
-			this.player.sprLegs.scale.x = 1;
-			this.player.animatorLegs.freq = 1 / 200;
-		}
+		this.player.movement.x = input.move.x;
+		this.player.movement.y = input.move.y;
 
 		this.screenFilter.uniforms.curTime = curTime;
 		this.screenFilter.uniforms.camPos = [

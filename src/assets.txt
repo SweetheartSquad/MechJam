@@ -54,7 +54,7 @@ textures/player/rhinobot_strafeRight/rhinobot_strafeRight.27.png
 textures/player/rhinobot_strafeRight/rhinobot_strafeRight.28.png
 textures/player/rhinobot_strafeRight/rhinobot_strafeRight.29.png
 textures/player/rhinobot_strafeRight/rhinobot_strafeRight.30.png
-textures/mech_forward1.png
-textures/mech_forward2.png
+textures/player/rhinobot_forward1.png
+textures/player/rhinobot_forward2.png
 textures/tree.png
 textures/compass.png
