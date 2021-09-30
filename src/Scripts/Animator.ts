@@ -23,9 +23,13 @@ export class Animator extends Script {
 
 	frameCount!: number;
 
+	private frames: number[] = [];
+
 	frame!: number;
 
 	animation!: string;
+
+	holds: { [frame: number]: number } = {};
 
 	constructor(
 		gameObject: GameObject,
@@ -38,19 +42,29 @@ export class Animator extends Script {
 		this.setAnimation(spr.texture.textureCacheIds[0]);
 	}
 
-	setAnimation(a: string) {
+	setAnimation(a: string, holds: { [frame: number]: number } = {}) {
 		if (this.animation === a) return;
 		const [animation, index] = a.split(/(\d+)$/);
 		this.animation = animation;
 		this.frameCount = getFrameCount(animation);
+		this.frames = new Array(this.frameCount)
+			.fill(0)
+			.flatMap((_, idx) =>
+				holds?.[idx + 1] !== undefined
+					? new Array(holds[idx + 1]).fill(idx + 1)
+					: idx + 1
+			);
 		this.frame = (this.frameCount ? parseInt(index, 10) - 1 : 0) || 0;
+		this.holds = holds;
 		this.updateTexture();
 	}
 
 	updateTexture() {
 		this.spr.texture =
 			resources[
-				this.frameCount ? `${this.animation}${this.frame + 1}` : this.animation
+				this.frameCount
+					? `${this.animation}${this.frames[this.frame]}`
+					: this.animation
 			]?.texture || (resources.error.texture as Texture);
 	}
 
@@ -58,7 +72,7 @@ export class Animator extends Script {
 		if (!this.frameCount) return;
 		const curTime = game.app.ticker.lastTime;
 		this.frame =
-			Math.floor(curTime * this.freq + this.offset * 0.5) % this.frameCount;
+			Math.floor(curTime * this.freq + this.offset * 0.5) % this.frames.length;
 		this.updateTexture();
 	}
 }
