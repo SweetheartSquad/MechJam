@@ -12,7 +12,8 @@ export class FieldObjectPlayer extends FieldObject {
 		super.update();
 		if (
 			this.animPrev !== this.spr.texture &&
-			this.animator.frame === 0 &&
+			(this.animator.frame === 0 ||
+				this.animator.frame === Math.floor(this.animator.frameCount / 2)) &&
 			!this.animator.animation.includes('idle')
 		) {
 			(getActiveScene() as GameScene).kick(0, 2);
