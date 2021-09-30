@@ -1,7 +1,6 @@
 import { Howler } from 'howler';
 import { DisplayObject, Point, Texture } from 'pixi.js';
 import { resources } from './Game';
-import { getInput } from './main';
 
 export const zero = new Point(0, 0);
 
@@ -170,26 +169,26 @@ export function evalFn(fn: string) {
 }
 
 /** helper for handling keyboard/controller navigation on a set of menu options */
-export function inputMenu(
-	selected: number,
-	options: {
-		select: () => void;
-		focus: () => void;
-	}[]
-) {
-	const input = getInput();
-	if (input.interact && selected >= 0) {
-		options[selected]?.select();
-	} else if (input.justMoved.x !== 0) {
-		if (selected < 0) {
-			options[0]?.focus();
-		} else if (input.justMoved.x > 0) {
-			options[(selected + 1) % options.length]?.focus();
-		} else if (input.justMoved.x < 0) {
-			options[(selected + options.length - 1) % options.length]?.focus();
-		}
-	}
-}
+// export function inputMenu(
+// 	selected: number,
+// 	options: {
+// 		select: () => void;
+// 		focus: () => void;
+// 	}[]
+// ) {
+// 	const input = getInput();
+// 	if (input.interact && selected >= 0) {
+// 		options[selected]?.select();
+// 	} else if (input.justMoved.x !== 0) {
+// 		if (selected < 0) {
+// 			options[0]?.focus();
+// 		} else if (input.justMoved.x > 0) {
+// 			options[(selected + 1) % options.length]?.focus();
+// 		} else if (input.justMoved.x < 0) {
+// 			options[(selected + options.length - 1) % options.length]?.focus();
+// 		}
+// 	}
+// }
 
 /** helper for generating a string in the format "X and Y" or "X, Y, and Z" */
 export function andList(...words: string[] | [string[]]) {
