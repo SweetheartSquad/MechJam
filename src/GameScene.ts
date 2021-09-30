@@ -490,6 +490,17 @@ export class GameScene extends GameObject {
 		);
 	}
 
+	buzz(amount = 1, duration = 200) {
+		TweenManager.tween(
+			this.screenFilter.uniforms,
+			'uNoise',
+			0.2,
+			duration,
+			amount,
+			quadOut
+		);
+	}
+
 	shake(intensity = 5, duration = 200) {
 		TweenManager.tween(
 			this.camera.display.container,

@@ -9,6 +9,7 @@ export class ScreenFilter extends CustomFilter<{
 	curTime: number;
 	camPos: [number, number];
 	size: [number, number];
+	uNoise: number;
 	ditherGridMap: Texture;
 }> {
 	constructor() {
@@ -17,6 +18,7 @@ export class ScreenFilter extends CustomFilter<{
 		this.uniforms.invert = 0;
 		this.uniforms.curTime = 0;
 		this.uniforms.camPos = [0, 0];
+		this.uniforms.uNoise = 0.2;
 		this.uniforms.size = [size.x, size.y];
 		(resources.ditherGrid.texture as Texture).baseTexture.wrapMode =
 			WRAP_MODES.REPEAT;

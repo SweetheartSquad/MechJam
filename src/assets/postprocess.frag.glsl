@@ -8,6 +8,7 @@ uniform float invert;
 uniform float curTime;
 uniform vec2 camPos;
 uniform vec2 size;
+uniform float uNoise;
 uniform sampler2D ditherGridMap;
 const vec2 ditherSize = vec2(4.0);
 const float posterize = 32.0;
@@ -68,8 +69,9 @@ void main(void) {
 	// get pixels
 	vec2 uv = vTextureCoord;
 	float t = mod(curTime/1000.0,1000.0);
+	vec2 noiseT1 = vec2(rand(vec2(0.0, t)), rand(vec2(t, 0.0)));
 	vec2 noiseT = vec2(rand(vec2(0.0, t - mod(t, 0.4))), rand(vec2(t - mod(t, 0.4), 0.0)));
-	uv += noise(uv*10.0 + noiseT)*0.001;
+	uv += (noise(uv*10.0 + noiseT)-0.5)*0.01*uNoise;
 
 	vec3 orig = texture2D(uSampler, uv).rgb;
 
@@ -83,7 +85,7 @@ void main(void) {
 	float haze = 0.02;
 	rgb *= (vignette(uv + noise(uv*5.0+t)*haze, 1.0)*0.75+0.25);
 	// noise
-	rgb += ((noise((uv+noiseT)*size.xy*vec2(1.0, 0.05)) * noise((uv+noiseT)*size.xy)) - 0.5)*(1.0-vignette(uv,1.0)*0.5)*0.1;
+	rgb += ((noise((uv+noiseT1)*size.xy*vec2(0.01, 1.0)) * noise((uv+noiseT1)*size.xy)) - 0.25)*(1.0-vignette(uv,1.0)*0.75)*uNoise;
 	// hard edge vignette
 	rgb *= vignette(uv, 0.05);
 
