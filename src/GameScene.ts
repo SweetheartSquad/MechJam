@@ -19,6 +19,7 @@ import {
 	delay,
 	lerp,
 	randRange,
+	removeFromArray,
 	shuffle,
 	slerp,
 	tex,
@@ -168,6 +169,30 @@ export class GameScene extends GameObject {
 		this.container.interactiveChildren = false;
 		// @ts-ignore
 		this.container.accessibleChildren = false;
+
+		this.player.display.container.on('shoot', (pos: V, rotation: number) => {
+			const v = rotate({ x: 0, y: -5 }, rotation);
+			const fo = new FieldObject('bullet');
+			fo.scripts.push({
+				gameObject: fo,
+				update: () => {
+					fo.transform.x += v.x;
+					fo.transform.y += v.y;
+					if (this.outside(fo)) {
+						setTimeout(() => {
+							fo.destroy();
+							removeFromArray(this.fieldObjects, fo);
+							removeFromArray(this.bullets, fo);
+						});
+					}
+				},
+			});
+			fo.transform.x = pos.x;
+			fo.transform.y = pos.y;
+			this.containerField.addChild(fo.display.container);
+			this.fieldObjects.push(fo);
+			this.bullets.push(fo);
+		});
 	}
 
 	containerField = new Container();
@@ -177,6 +202,8 @@ export class GameScene extends GameObject {
 	enemy: FieldObjectMech;
 
 	fieldObjects: FieldObject[] = [];
+
+	bullets: FieldObject[] = [];
 
 	rotationField = 0;
 
@@ -189,14 +216,22 @@ export class GameScene extends GameObject {
 		this.camera.destroy();
 	}
 
+	outside(obj: FieldObject) {
+		const mp = magnitude2(obj.transform);
+		if (mp > this.fieldRadius * this.fieldRadius) {
+			return mp;
+		}
+		return false;
+	}
+
 	update(): void {
 		const curTime = game.app.ticker.lastTime;
 		const input = getInput();
 
 		// keep inside arena
 		[this.player, this.enemy].forEach((obj: FieldObject) => {
-			const mp = magnitude2(obj.transform);
-			if (mp > this.fieldRadius * this.fieldRadius) {
+			const mp = this.outside(obj);
+			if (mp) {
 				const a = Math.atan2(obj.transform.y, obj.transform.x);
 				obj.transform.x = Math.cos(a) * this.fieldRadius;
 				obj.transform.y = Math.sin(a) * this.fieldRadius;
@@ -265,6 +300,16 @@ export class GameScene extends GameObject {
 		this.uiMinimap.beginFill(0, 0.75);
 		this.uiMinimap.drawCircle(0, 0, this.fieldRadius * minimapScale);
 		this.uiMinimap.lineStyle(0);
+
+		this.uiMinimap.beginFill(0xffffff, 0.75);
+		this.bullets.forEach((i) => {
+			this.uiMinimap.drawCircle(
+				i.transform.x * minimapScale,
+				i.transform.y * minimapScale,
+				1
+			);
+		});
+
 		this.uiMinimap.beginFill(0x00ff00);
 		this.uiMinimap.drawCircle(
 			this.player.transform.x * minimapScale,

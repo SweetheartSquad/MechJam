@@ -63,3 +63,4 @@ textures/player/rhinobot_forward1.png
 textures/player/rhinobot_forward2.png
 textures/tree.png
 textures/compass.png
+textures/bullet.png

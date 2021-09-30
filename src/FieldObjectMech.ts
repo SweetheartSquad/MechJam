@@ -2,7 +2,7 @@ import { Sprite, Texture } from 'pixi.js';
 import { FieldObject } from './FieldObject';
 import { Animator } from './Scripts/Animator';
 import { tex } from './utils';
-import { rotate, V } from './VMath';
+import { add, rotate, V } from './VMath';
 
 export class FieldObjectMech extends FieldObject {
 	animPrev?: Texture;
@@ -16,6 +16,8 @@ export class FieldObjectMech extends FieldObject {
 	sprTorso: Sprite;
 
 	movement: V = { x: 0, y: 0 };
+
+	canShoot = true;
 
 	shooting = false;
 
@@ -85,6 +87,24 @@ export class FieldObjectMech extends FieldObject {
 
 		this.movement.x = 0;
 		this.movement.y = 0;
+
+		if (this.shooting) {
+			if (this.canShoot) {
+				this.canShoot = false;
+				this.display.container.emit(
+					'shoot',
+					add(this.transform, rotate({ x: -30, y: -10 }, -this.rotation)),
+					-this.rotation
+				);
+			}
+		} else {
+			this.canShoot = true;
+		}
+
+		const couldShoot = this.animatorTorso.frame === 0;
 		super.update();
+		if (!couldShoot && !this.canShoot) {
+			this.canShoot = this.animatorTorso.frame === 0;
+		}
 	}
 }
