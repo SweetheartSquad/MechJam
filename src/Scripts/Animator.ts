@@ -12,7 +12,7 @@ function getFrameCount(animation: string): number {
 	return count;
 }
 
-let offset = 0;
+const offset = 0;
 
 export class Animator extends Script {
 	spr: Sprite;
@@ -38,13 +38,15 @@ export class Animator extends Script {
 		super(gameObject);
 		this.spr = spr;
 		this.freq = freq;
-		this.offset = ++offset;
+		this.offset = offset;
+		// offset += 0.5;
 		this.setAnimation(spr.texture.textureCacheIds[0]);
 	}
 
 	setAnimation(a: string, holds: { [frame: number]: number } = {}) {
 		if (this.animation === a) return;
 		const [animation, index] = a.split(/(\d+)$/);
+		if (this.animation === animation) return;
 		this.animation = animation;
 		this.frameCount = getFrameCount(animation);
 		this.frames = new Array(this.frameCount)
@@ -55,6 +57,7 @@ export class Animator extends Script {
 					: idx + 1
 			);
 		this.frame = (this.frameCount ? parseInt(index, 10) - 1 : 0) || 0;
+		this.offset = -game.app.ticker.lastTime;
 		this.holds = holds;
 		this.updateTexture();
 	}
@@ -72,7 +75,7 @@ export class Animator extends Script {
 		if (!this.frameCount) return;
 		const curTime = game.app.ticker.lastTime;
 		this.frame =
-			Math.floor(curTime * this.freq + this.offset * 0.5) % this.frames.length;
+			Math.floor((curTime + this.offset) * this.freq) % this.frames.length;
 		this.updateTexture();
 	}
 }
