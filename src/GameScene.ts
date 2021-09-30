@@ -190,7 +190,7 @@ export class GameScene extends GameObject {
 		const curTime = game.app.ticker.lastTime;
 		const input = getInput();
 
-		const controlType: 'tank' | 'orbit' = input.interact ? 'orbit' : 'tank';
+		const controlType: 'tank' | 'orbit' = input.interact ? 'tank' : 'orbit';
 
 		if (controlType === 'orbit') {
 			// orbit controls
