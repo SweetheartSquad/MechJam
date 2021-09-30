@@ -2,7 +2,7 @@ import { Sprite, Texture } from 'pixi.js';
 import { FieldObject } from './FieldObject';
 import { Animator } from './Scripts/Animator';
 import { tex } from './utils';
-import { V } from './VMath';
+import { rotate, V } from './VMath';
 
 export class FieldObjectMech extends FieldObject {
 	animPrev?: Texture;
@@ -16,6 +16,10 @@ export class FieldObjectMech extends FieldObject {
 	sprTorso: Sprite;
 
 	movement: V = { x: 0, y: 0 };
+
+	controlType: 'tank' | 'orbit' = 'orbit';
+
+	rotation = 0;
 
 	constructor(public character: string) {
 		super('error', true);
@@ -35,6 +39,21 @@ export class FieldObjectMech extends FieldObject {
 	}
 
 	update() {
+		// update position
+		if (this.controlType === 'orbit') {
+			// orbit controls
+			const movement = rotate(this.movement, -this.rotation);
+			this.transform.x += movement.x * 4;
+			this.transform.y += movement.y * 4;
+		} else {
+			// tank controls
+			const { movement } = this;
+			this.transform.x += Math.sin(this.rotation) * movement.y * 4;
+			this.transform.y += Math.cos(this.rotation) * movement.y * 4;
+			this.rotation += -movement.x / 20;
+		}
+
+		// update animation
 		if (Math.abs(this.movement.x) > 0) {
 			this.animatorLegs.setAnimation(`${this.character}_strafeRight.`, {
 				1: 2,

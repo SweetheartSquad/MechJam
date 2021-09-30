@@ -17,6 +17,7 @@ import { TweenManager } from './Tweens';
 import {
 	andList,
 	delay,
+	lerp,
 	randRange,
 	shuffle,
 	slerp,
@@ -192,34 +193,15 @@ export class GameScene extends GameObject {
 		const curTime = game.app.ticker.lastTime;
 		const input = getInput();
 
-		const controlType: 'tank' | 'orbit' = input.interact ? 'tank' : 'orbit';
-
-		if (controlType === 'orbit') {
-			// orbit controls
-			const movement = rotate(input.move, -this.rotationField);
-			this.player.transform.x += movement.x * 4;
-			this.player.transform.y += movement.y * 4;
-			const rotation =
-				-Math.atan2(
-					this.enemy.transform.y - this.player.transform.y,
-					this.enemy.transform.x - this.player.transform.x
-				) -
-				Math.PI / 2;
-			this.rotationField = slerp(this.rotationField, rotation, 0.1);
-		} else {
-			// tank controls
-			const movement = input.move;
-			this.player.transform.x += Math.sin(this.rotationField) * movement.y * 4;
-			this.player.transform.y += Math.cos(this.rotationField) * movement.y * 4;
-			this.rotationField += -movement.x / 20;
-		}
-
-		const mp = magnitude2(this.player.transform);
-		if (mp > this.fieldRadius * this.fieldRadius) {
-			const a = Math.atan2(this.player.transform.y, this.player.transform.x);
-			this.player.transform.x = Math.cos(a) * this.fieldRadius;
-			this.player.transform.y = Math.sin(a) * this.fieldRadius;
-		}
+		// keep inside arena
+		[this.player, this.enemy].forEach((obj: FieldObject) => {
+			const mp = magnitude2(obj.transform);
+			if (mp > this.fieldRadius * this.fieldRadius) {
+				const a = Math.atan2(obj.transform.y, obj.transform.x);
+				obj.transform.x = Math.cos(a) * this.fieldRadius;
+				obj.transform.y = Math.sin(a) * this.fieldRadius;
+			}
+		});
 
 		this.bg.tilePosition.x =
 			(this.rotationField / Math.PI / 2) * this.bg.texture.width +
@@ -227,8 +209,18 @@ export class GameScene extends GameObject {
 		this.uiCompass.tilePosition.x =
 			(this.rotationField / Math.PI) * 0.5 * this.uiCompass.texture.width;
 
-		const origin = this.player.display.container.position;
+		// update cam + mech rotations
+		const rotation =
+			-Math.atan2(
+				this.enemy.transform.y - this.player.transform.y,
+				this.enemy.transform.x - this.player.transform.x
+			) -
+			Math.PI / 2;
+		this.player.rotation = rotation;
+		this.enemy.rotation = rotation + Math.PI * 2;
+		this.rotationField = slerp(this.rotationField, rotation, 0.1);
 
+		const origin = this.player.display.container.position;
 		FieldObject.threed = (pos: V) => {
 			const relative = subtract(pos, this.player.transform);
 			const rotated = rotate(relative, this.rotationField);
@@ -253,11 +245,6 @@ export class GameScene extends GameObject {
 			y *= size.y;
 			// lower horizon
 			y *= horizon;
-
-			// z = lerp(c1, c2, z) * size.y;
-			// rotated.y *= 0.33;
-			// rotated.y =
-			// 	Math.abs(quadOut(rotated.y / size.y) * size.y) * Math.sign(rotated.y);
 
 			return {
 				...add(origin, { x: rotated.x, y }),
@@ -304,6 +291,9 @@ export class GameScene extends GameObject {
 		// player animation
 		this.player.movement.x = input.move.x;
 		this.player.movement.y = input.move.y;
+		// TODO: enemy AI
+		this.enemy.movement.x = lerp(this.enemy.movement.x, -input.move.x, 0.1);
+		this.enemy.movement.y = lerp(this.enemy.movement.y, input.move.y, 0.1);
 
 		this.screenFilter.uniforms.curTime = curTime;
 		this.screenFilter.uniforms.camPos = [
