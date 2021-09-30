@@ -169,7 +169,7 @@ export class GameScene extends GameObject {
 
 	containerField = new Container();
 
-	player: FieldObject;
+	player: FieldObjectPlayer;
 
 	enemy: FieldObject;
 
@@ -301,22 +301,22 @@ export class GameScene extends GameObject {
 
 		// player animation
 		if (Math.abs(input.move.x) > 0) {
-			this.player.animator.freq = 1 / 50;
-			this.player.animator.setAnimation(
-				input.move.x > 0 ? 'rhinobot_strafeRight.' : 'rhinobot_strafeLeft.',
-				{
-					1: 2,
-					2: 2,
-					15: 2,
-					16: 2,
-				}
-			);
+			this.player.animatorLegs.setAnimation('rhinobot_strafeRight.', {
+				1: 2,
+				2: 2,
+				15: 2,
+				16: 2,
+			});
+			this.player.sprLegs.scale.x = Math.sign(input.move.x);
+			this.player.animatorLegs.freq = 1 / 50;
 		} else if (Math.abs(input.move.y) > 0) {
-			this.player.animator.freq = 1 / 300;
-			this.player.animator.setAnimation('mech_forward');
+			this.player.animatorLegs.freq = 1 / 300;
+			this.player.sprLegs.scale.x = 1;
+			this.player.animatorLegs.setAnimation('mech_forward');
 		} else {
-			this.player.animator.setAnimation('rhinobot_idle.');
-			this.player.animator.freq = 1 / 50;
+			this.player.animatorLegs.setAnimation('rhinobot_legs_idle.');
+			this.player.sprLegs.scale.x = 1;
+			this.player.animatorLegs.freq = 1 / 200;
 		}
 
 		this.screenFilter.uniforms.curTime = curTime;

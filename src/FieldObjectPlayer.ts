@@ -1,11 +1,37 @@
-import { Texture } from 'pixi.js';
+import { Sprite, Texture } from 'pixi.js';
 import { FieldObject } from './FieldObject';
 import { GameScene } from './GameScene';
 import { getActiveScene } from './main';
+import { Animator } from './Scripts/Animator';
 import { size } from './size';
+import { tex } from './utils';
 
 export class FieldObjectPlayer extends FieldObject {
 	animPrev?: Texture;
+
+	animatorLegs: Animator;
+
+	animatorTorso: Animator;
+
+	sprLegs: Sprite;
+
+	sprTorso: Sprite;
+
+	constructor(spr: string, outline?: boolean) {
+		super(spr, outline);
+		this.sprLegs = this.spr;
+		this.sprTorso = new Sprite(tex('rhinobot_torso_idle.'));
+		this.sprTorso.anchor.x = 0.5;
+		this.sprTorso.anchor.y = 1.0;
+		this.sprTorso.filters = this.sprLegs.filters;
+		this.display.container.addChildAt(this.sprTorso, 0);
+		this.sprTorso.y -= 60;
+
+		this.animatorLegs = this.animator;
+		this.scripts.push(
+			(this.animatorTorso = new Animator(this, { spr: this.sprTorso }))
+		);
+	}
 
 	update() {
 		this.animPrev = this.spr.texture;
