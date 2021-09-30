@@ -259,7 +259,7 @@ export class GameScene extends GameObject {
 			) -
 			Math.PI / 2;
 		this.player.rotation = rotation;
-		this.enemy.rotation = rotation + Math.PI * 2;
+		this.enemy.rotation = rotation + Math.PI;
 		this.rotationField = slerp(this.rotationField, rotation, 0.1);
 
 		const origin = this.player.display.container.position;
