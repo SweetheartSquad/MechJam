@@ -170,29 +170,33 @@ export class GameScene extends GameObject {
 		// @ts-ignore
 		this.container.accessibleChildren = false;
 
-		this.player.display.container.on('shoot', (pos: V, rotation: number) => {
-			const v = rotate({ x: 0, y: -5 }, rotation);
-			const fo = new FieldObject('bullet');
-			fo.scripts.push({
-				gameObject: fo,
-				update: () => {
-					fo.transform.x += v.x;
-					fo.transform.y += v.y;
-					if (this.outside(fo)) {
-						setTimeout(() => {
-							fo.destroy();
-							removeFromArray(this.fieldObjects, fo);
-							removeFromArray(this.bullets, fo);
-						});
-					}
-				},
-			});
-			fo.transform.x = pos.x;
-			fo.transform.y = pos.y;
-			this.containerField.addChild(fo.display.container);
-			this.fieldObjects.push(fo);
-			this.bullets.push(fo);
-		});
+		[this.player.display.container, this.enemy.display.container].forEach(
+			(i) => {
+				i.on('shoot', (pos: V, rotation: number) => {
+					const v = rotate({ x: 0, y: -5 }, rotation);
+					const fo = new FieldObject('bullet');
+					fo.scripts.push({
+						gameObject: fo,
+						update: () => {
+							fo.transform.x += v.x;
+							fo.transform.y += v.y;
+							if (this.outside(fo)) {
+								setTimeout(() => {
+									fo.destroy();
+									removeFromArray(this.fieldObjects, fo);
+									removeFromArray(this.bullets, fo);
+								});
+							}
+						},
+					});
+					fo.transform.x = pos.x;
+					fo.transform.y = pos.y;
+					this.containerField.addChild(fo.display.container);
+					this.fieldObjects.push(fo);
+					this.bullets.push(fo);
+				});
+			}
+		);
 	}
 
 	containerField = new Container();
@@ -347,6 +351,7 @@ export class GameScene extends GameObject {
 		// TODO: enemy AI
 		this.enemy.movement.x = lerp(this.enemy.movement.x, -input.move.x, 0.1);
 		this.enemy.movement.y = lerp(this.enemy.movement.y, input.move.y, 0.1);
+		this.enemy.shooting = Math.random() > 0.1;
 
 		this.screenFilter.uniforms.curTime = curTime;
 		this.screenFilter.uniforms.camPos = [
