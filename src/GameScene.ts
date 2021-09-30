@@ -303,7 +303,13 @@ export class GameScene extends GameObject {
 		if (Math.abs(input.move.x) > 0) {
 			this.player.animator.freq = 1 / 50;
 			this.player.animator.setAnimation(
-				input.move.x > 0 ? 'rhinobot_strafeRight.' : 'rhinobot_strafeLeft.'
+				input.move.x > 0 ? 'rhinobot_strafeRight.' : 'rhinobot_strafeLeft.',
+				{
+					1: 2,
+					2: 2,
+					15: 2,
+					16: 2,
+				}
 			);
 		} else if (Math.abs(input.move.y) > 0) {
 			this.player.animator.freq = 1 / 300;
