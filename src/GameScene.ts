@@ -301,8 +301,10 @@ export class GameScene extends GameObject {
 
 		// player animation
 		if (Math.abs(input.move.x) > 0) {
-			this.player.animator.freq = 1 / 300;
-			this.player.animator.setAnimation('mech_run');
+			this.player.animator.freq = 1 / 24;
+			this.player.animator.setAnimation(
+				input.move.x > 0 ? 'rhinobot_strafeRight.' : 'rhinobot_strafeLeft.'
+			);
 		} else if (Math.abs(input.move.y) > 0) {
 			this.player.animator.freq = 1 / 300;
 			this.player.animator.setAnimation('mech_forward');
