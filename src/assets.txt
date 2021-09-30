@@ -10,6 +10,11 @@ textures/fg.png
 textures/marker.png
 textures/marker_edge.png
 textures/mech.png
+textures/player/rhinobot_shoot/rhinobot_shoot.1.png
+textures/player/rhinobot_shoot/rhinobot_shoot.2.png
+textures/player/rhinobot_shoot/rhinobot_shoot.3.png
+textures/player/rhinobot_shoot/rhinobot_shoot.4.png
+textures/player/rhinobot_shoot/rhinobot_shoot.5.png
 textures/player/rhinobot_idle/rhinobot_legs_idle.1.png
 textures/player/rhinobot_idle/rhinobot_legs_idle.2.png
 textures/player/rhinobot_idle/rhinobot_legs_idle.3.png

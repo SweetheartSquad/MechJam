@@ -17,6 +17,8 @@ export class FieldObjectMech extends FieldObject {
 
 	movement: V = { x: 0, y: 0 };
 
+	shooting = false;
+
 	controlType: 'tank' | 'orbit' = 'orbit';
 
 	rotation = 0;
@@ -72,6 +74,15 @@ export class FieldObjectMech extends FieldObject {
 			this.sprLegs.scale.x = 1;
 			this.animatorLegs.freq = 1 / 200;
 		}
+
+		if (this.shooting) {
+			this.animatorTorso.setAnimation(`${this.character}_shoot.1`);
+			this.animatorTorso.freq = 1 / 50;
+		} else {
+			this.animatorTorso.setAnimation(`${this.character}_torso_idle.`);
+			this.animatorTorso.freq = 1 / 200;
+		}
+
 		this.movement.x = 0;
 		this.movement.y = 0;
 		super.update();

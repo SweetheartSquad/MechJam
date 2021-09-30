@@ -35,7 +35,9 @@ export function getInput(): {
 		y: number;
 	};
 	menu: boolean;
-	interact: boolean;
+	shoot: boolean;
+	melee: boolean;
+	dash: boolean;
 } {
 	const res = {
 		mouse: {
@@ -68,7 +70,7 @@ export function getInput(): {
 			gamepads.isJustDown(Buttons.START) ||
 			gamepads.isJustDown(Buttons.BACK) ||
 			keys.isJustDown(KEYS.ESCAPE),
-		interact:
+		shoot:
 			gamepads.isDown(Buttons.A) ||
 			gamepads.isDown(Buttons.B) ||
 			gamepads.isDown(Buttons.X) ||
@@ -78,6 +80,8 @@ export function getInput(): {
 			keys.isDown(KEYS.Z) ||
 			keys.isDown(KEYS.X) ||
 			keys.isDown(KEYS.ENTER),
+		melee: false,
+		dash: false,
 	};
 
 	if (

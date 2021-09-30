@@ -295,7 +295,8 @@ export class GameScene extends GameObject {
 		this.uiMinimap.x = 10 + this.uiMinimap.width / 2;
 		this.uiMinimap.y = 10 + this.uiMinimap.height / 2;
 
-		// player animation
+		// player input
+		this.player.shooting = input.shoot;
 		this.player.movement.x = input.move.x;
 		this.player.movement.y = input.move.y;
 		// TODO: enemy AI
