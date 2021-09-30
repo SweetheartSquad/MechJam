@@ -200,6 +200,13 @@ export class GameScene extends GameObject {
 				const a = Math.atan2(obj.transform.y, obj.transform.x);
 				obj.transform.x = Math.cos(a) * this.fieldRadius;
 				obj.transform.y = Math.sin(a) * this.fieldRadius;
+
+				// feedback
+				if (obj === this.player) {
+					this.overlay([1, 1, 1, 0.1], 100);
+					this.shake(1.5, 100);
+					this.buzz(0.5, 100);
+				}
 			}
 		});
 
@@ -498,5 +505,11 @@ export class GameScene extends GameObject {
 	kick(x = 0, y = 0) {
 		this.camera.display.container.pivot.x += x;
 		this.camera.display.container.pivot.y += y;
+	}
+
+	hurt(duration = 200) {
+		this.overlay([1, 0, 0, 0.1], duration);
+		this.shake(5, duration);
+		this.buzz(1, duration);
 	}
 }
