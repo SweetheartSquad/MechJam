@@ -59,6 +59,12 @@ export class GameScene extends GameObject {
 
 	uiMinimap: Graphics = new Graphics();
 
+	uiHpPlayer: Graphics = new Graphics();
+
+	uiHeat: Graphics = new Graphics();
+
+	uiHpEnemy: Graphics = new Graphics();
+
 	fg: TilingSprite;
 
 	animatorBg: Animator;
@@ -164,8 +170,11 @@ export class GameScene extends GameObject {
 		this.container.addChild(this.containerUI);
 
 		this.containerUI.addChild(this.fg);
+		this.containerUI.addChild(this.uiHpEnemy);
 		this.containerUI.addChild(this.uiCompass);
 		this.containerUI.addChild(this.uiMinimap);
+		this.containerUI.addChild(this.uiHpPlayer);
+		this.containerUI.addChild(this.uiHeat);
 
 		this.container.interactiveChildren = false;
 		// @ts-ignore
@@ -195,6 +204,7 @@ export class GameScene extends GameObject {
 						}
 						if (distance2(fo.transform, target.transform) < 20 ** 2) {
 							destroy();
+							target.hp -= 1;
 							if (target === this.player) {
 								this.hurt();
 							} else {
@@ -356,6 +366,78 @@ export class GameScene extends GameObject {
 		this.uiMinimap.endFill();
 		this.uiMinimap.x = 10 + this.uiMinimap.width / 2;
 		this.uiMinimap.y = 10 + this.uiMinimap.height / 2;
+
+		this.uiHpEnemy.x = lerp(
+			this.uiHpEnemy.x,
+			this.enemy.display.container.x,
+			0.1
+		);
+		this.uiHpEnemy.y = lerp(
+			this.uiHpEnemy.y,
+			this.enemy.display.container.y,
+			0.1
+		);
+		this.uiHpEnemy.clear();
+		this.uiHpEnemy.lineStyle(1, 0xff0000, 0.5);
+		const w = this.enemy.display.container.width;
+		const h = this.enemy.display.container.height;
+		this.uiHpEnemy.drawRoundedRect(
+			-w * 0.5 * 1.5,
+			-w * 0.5 * 1.5 - h * 0.5,
+			w * 1.5,
+			w * 1.5,
+			2
+		);
+		this.uiHpEnemy.drawRoundedRect(
+			-w * 0.5 * 0.5,
+			-w * 0.5 * 0.5 - h * 0.5,
+			w * 0.5,
+			w * 0.5,
+			4
+		);
+		this.uiHpEnemy.drawRoundedRect(
+			-w * 0.5 * 1.5,
+			-w * 0.5 * 1.5 - h * 0.5 - 8,
+			w * 1.5,
+			6,
+			2
+		);
+		this.uiHpEnemy.lineStyle(0);
+		this.uiHpEnemy.beginFill(0xff0000, 0.5);
+		this.uiHpEnemy.drawRect(
+			-w * 0.5 * 1.5 + 1,
+			-w * 0.5 * 1.5 - h * 0.5 - 8 + 1,
+			w * 1.5 * (this.enemy.hp / this.enemy.hpMax) - 2,
+			4
+		);
+
+		this.uiHpPlayer.x = 10;
+		this.uiHpPlayer.y = size.y - 40;
+		this.uiHpPlayer.clear();
+		this.uiHpPlayer.lineStyle(1, 0x00ff00, 0.5);
+		this.uiHpPlayer.drawRoundedRect(0, 0, 100, 6, 2);
+		this.uiHpPlayer.lineStyle(0);
+		this.uiHpPlayer.beginFill(0x00ff00, 0.5);
+		this.uiHpPlayer.drawRect(
+			1,
+			1,
+			98 * (this.player.hp / this.player.hpMax),
+			4
+		);
+
+		this.uiHeat.x = 10;
+		this.uiHeat.y = size.y - 50;
+		this.uiHeat.clear();
+		this.uiHeat.lineStyle(1, 0xffff00, 0.5);
+		this.uiHeat.drawRoundedRect(0, 0, 100, 6, 2);
+		this.uiHeat.lineStyle(0);
+		this.uiHeat.beginFill(0xffff00, 0.5);
+		this.uiHeat.drawRect(
+			1,
+			1,
+			98 * (this.player.heat / this.player.heatMax),
+			4
+		);
 
 		// player input
 		this.player.shooting = input.shoot;

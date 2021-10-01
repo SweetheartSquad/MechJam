@@ -25,6 +25,22 @@ export class FieldObjectMech extends FieldObject {
 
 	rotation = 0;
 
+	hpMax = 100;
+
+	hp = 100;
+
+	heatMax = 100;
+
+	heat = 0;
+
+	get overheated() {
+		return this.heat > this.heatMax;
+	}
+
+	get dead() {
+		return this.hp <= 0;
+	}
+
 	constructor(public character: string) {
 		super('error', true);
 		this.sprLegs = this.spr;
@@ -92,6 +108,7 @@ export class FieldObjectMech extends FieldObject {
 		if (this.shooting) {
 			if (this.canShoot) {
 				this.canShoot = false;
+				this.heat += 10;
 				this.display.container.emit(
 					'shoot',
 					add(this.transform, rotate({ x: -30, y: -10 }, -this.rotation)),
@@ -103,6 +120,18 @@ export class FieldObjectMech extends FieldObject {
 		}
 
 		const couldShoot = this.animatorTorso.frame === 0;
+
+		this.heat -= 1;
+		if (this.heat < 0) {
+			this.heat = 0;
+		}
+		if (this.hp < 0) {
+			this.hp = 0;
+		}
+		if (this.hp > this.hpMax) {
+			this.hp = this.hpMax;
+		}
+
 		super.update();
 		if (!couldShoot && !this.canShoot) {
 			this.canShoot = this.animatorTorso.frame === 0;
