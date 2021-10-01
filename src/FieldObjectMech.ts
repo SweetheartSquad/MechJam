@@ -33,9 +33,7 @@ export class FieldObjectMech extends FieldObject {
 
 	heat = 0;
 
-	get overheated() {
-		return this.heat > this.heatMax;
-	}
+	overheated = false;
 
 	get dead() {
 		return this.hp <= 0;
@@ -92,7 +90,10 @@ export class FieldObjectMech extends FieldObject {
 			this.animatorLegs.freq = 1 / 200;
 		}
 
-		if (this.shooting) {
+		if (this.overheated) {
+			this.animatorTorso.setAnimation(`${this.character}_Idle_Top.`);
+			this.animatorTorso.freq = 1 / 200;
+		} else if (this.shooting) {
 			this.animatorTorso.setAnimation(
 				`${this.character}_stationaryShoot_Top.1`
 			);
@@ -106,9 +107,9 @@ export class FieldObjectMech extends FieldObject {
 		this.movement.y = 0;
 
 		if (this.shooting) {
-			if (this.canShoot) {
+			if (this.canShoot && !this.overheated) {
 				this.canShoot = false;
-				this.heat += 10;
+				this.heat += 20;
 				this.display.container.emit(
 					'shoot',
 					add(this.transform, rotate({ x: -30, y: -10 }, -this.rotation)),
@@ -122,8 +123,13 @@ export class FieldObjectMech extends FieldObject {
 		const couldShoot = this.animatorTorso.frame === 0;
 
 		this.heat -= 1;
-		if (this.heat < 0) {
+		if (this.heat <= 0) {
 			this.heat = 0;
+			this.overheated = false;
+		}
+		if (this.heat > this.heatMax) {
+			this.heat = this.heatMax;
+			this.overheated = true;
 		}
 		if (this.hp < 0) {
 			this.hp = 0;

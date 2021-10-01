@@ -438,6 +438,10 @@ export class GameScene extends GameObject {
 			98 * (this.player.heat / this.player.heatMax),
 			4
 		);
+		if (this.player.overheated) {
+			this.uiHeat.beginFill(0xff0000, 0.5);
+			this.uiHeat.drawRoundedRect(0, 0, 100, 6, 2);
+		}
 
 		// player input
 		this.player.shooting = input.shoot;
