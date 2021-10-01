@@ -465,8 +465,16 @@ export class GameScene extends GameObject {
 		this.update = u;
 		TweenManager.update();
 		this.containerField.sortChildren();
-		this.containerUI.x = this.camera.display.container.pivot.x;
-		this.containerUI.y = this.camera.display.container.pivot.y;
+		this.containerUI.x = lerp(
+			this.containerUI.x,
+			this.camera.display.container.pivot.x + input.move.x * 3,
+			0.1
+		);
+		this.containerUI.y = lerp(
+			this.containerUI.y,
+			this.camera.display.container.pivot.y + input.move.y * 3,
+			0.1
+		);
 
 		if (!this.busy && this.queue.length) {
 			this.busy = true;
