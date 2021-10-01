@@ -4,6 +4,11 @@ import { getActiveScene } from './main';
 import { size } from './size';
 
 export class FieldObjectPlayer extends FieldObjectMech {
+	constructor(character: string) {
+		super(character);
+		this.display.container.pivot.y -= 20;
+	}
+
 	update() {
 		this.animPrev = this.spr.texture;
 		super.update();
