@@ -29,13 +29,12 @@ export class FieldObjectMech extends FieldObject {
 		super('error', true);
 		this.sprLegs = this.spr;
 		this.animatorLegs = this.animator;
-		this.animatorLegs.setAnimation(`${character}_legs_idle.`);
-		this.sprTorso = new Sprite(tex(`${character}_torso_idle.`));
+		this.sprTorso = new Sprite(tex(`error`));
 		this.sprTorso.anchor.x = 0.5;
 		this.sprTorso.anchor.y = 1.0;
 		this.sprTorso.filters = this.sprLegs.filters;
-		this.display.container.addChildAt(this.sprTorso, 0);
-		this.sprTorso.y -= 60;
+		this.display.container.addChild(this.sprTorso);
+		// this.sprTorso.y -= 60;
 
 		this.scripts.push(
 			(this.animatorTorso = new Animator(this, { spr: this.sprTorso }))
@@ -59,29 +58,31 @@ export class FieldObjectMech extends FieldObject {
 
 		// update animation
 		if (Math.abs(this.movement.x) > 0) {
-			this.animatorLegs.setAnimation(`${this.character}_strafeRight.`, {
+			this.animatorLegs.setAnimation(`${this.character}_strafeLeft_Bottom.`, {
 				1: 2,
 				2: 2,
 				15: 2,
 				16: 2,
 			});
-			this.sprLegs.scale.x = Math.sign(this.movement.x);
+			this.sprLegs.scale.x = -Math.sign(this.movement.x);
 			this.animatorLegs.freq = 1 / 50;
 		} else if (Math.abs(this.movement.y) > 0) {
-			this.animatorLegs.freq = 1 / 300;
+			this.animatorLegs.freq = 1 / 50;
 			this.sprLegs.scale.x = 1;
-			this.animatorLegs.setAnimation(`${this.character}_forward`);
+			this.animatorLegs.setAnimation(`${this.character}_forward_Bottom.`);
 		} else {
-			this.animatorLegs.setAnimation(`${this.character}_legs_idle.`);
+			this.animatorLegs.setAnimation(`${this.character}_Idle_Bottom.`);
 			this.sprLegs.scale.x = 1;
 			this.animatorLegs.freq = 1 / 200;
 		}
 
 		if (this.shooting) {
-			this.animatorTorso.setAnimation(`${this.character}_shoot.1`);
+			this.animatorTorso.setAnimation(
+				`${this.character}_stationaryShoot_Top.1`
+			);
 			this.animatorTorso.freq = 1 / 50;
 		} else {
-			this.animatorTorso.setAnimation(`${this.character}_torso_idle.`);
+			this.animatorTorso.setAnimation(`${this.character}_Idle_Top.`);
 			this.animatorTorso.freq = 1 / 200;
 		}
 
