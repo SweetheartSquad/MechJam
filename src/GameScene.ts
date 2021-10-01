@@ -26,7 +26,7 @@ import {
 	toggleFullscreen,
 	wrap,
 } from './utils';
-import { add, magnitude2, rotate, subtract, V } from './VMath';
+import { add, distance2, magnitude2, rotate, subtract, V } from './VMath';
 
 export class GameScene extends GameObject {
 	delay = delay;
@@ -170,33 +170,42 @@ export class GameScene extends GameObject {
 		// @ts-ignore
 		this.container.accessibleChildren = false;
 
-		[this.player.display.container, this.enemy.display.container].forEach(
-			(i) => {
-				i.on('shoot', (pos: V, rotation: number) => {
-					const v = rotate({ x: 0, y: -5 }, rotation);
-					const fo = new FieldObject('bullet');
-					fo.scripts.push({
-						gameObject: fo,
-						update: () => {
-							fo.transform.x += v.x;
-							fo.transform.y += v.y;
-							if (this.outside(fo)) {
-								setTimeout(() => {
-									fo.destroy();
-									removeFromArray(this.fieldObjects, fo);
-									removeFromArray(this.bullets, fo);
-								});
-							}
-						},
+		[this.player, this.enemy].forEach((i) => {
+			i.display.container.on('shoot', (pos: V, rotation: number) => {
+				const target = i === this.player ? this.enemy : this.player;
+				const v = rotate({ x: 0, y: -5 }, rotation);
+				const fo = new FieldObject('bullet');
+				const destroy = () =>
+					setTimeout(() => {
+						fo.destroy();
+						removeFromArray(this.fieldObjects, fo);
+						removeFromArray(this.bullets, fo);
 					});
-					fo.transform.x = pos.x;
-					fo.transform.y = pos.y;
-					this.containerField.addChild(fo.display.container);
-					this.fieldObjects.push(fo);
-					this.bullets.push(fo);
+				fo.scripts.push({
+					gameObject: fo,
+					update: () => {
+						fo.transform.x += v.x;
+						fo.transform.y += v.y;
+						if (this.outside(fo)) {
+							destroy();
+						}
+						if (distance2(fo.transform, target.transform) < 20 ** 2) {
+							destroy();
+							if (target === this.player) {
+								this.hurt();
+							} else {
+								// positive feedback on enemy hit?
+							}
+						}
+					},
 				});
-			}
-		);
+				fo.transform.x = pos.x;
+				fo.transform.y = pos.y;
+				this.containerField.addChild(fo.display.container);
+				this.fieldObjects.push(fo);
+				this.bullets.push(fo);
+			});
+		});
 	}
 
 	containerField = new Container();
