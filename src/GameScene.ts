@@ -1,6 +1,7 @@
 import { quadIn, quadOut, quartIn } from 'eases';
 import { Howl } from 'howler';
 import { BitmapText, Container, Graphics, TilingSprite } from 'pixi.js';
+import { ai } from './ai';
 import { getAlphaFilter } from './AlphaFilter';
 import { Camera } from './Camera';
 import { FieldObject } from './FieldObject';
@@ -500,10 +501,7 @@ export class GameScene extends GameObject {
 			this.player.shooting = input.shoot;
 			this.player.movement.x = input.move.x;
 			this.player.movement.y = input.move.y;
-			// TODO: enemy AI
-			this.enemy.movement.x = lerp(this.enemy.movement.x, -input.move.x, 0.1);
-			this.enemy.movement.y = lerp(this.enemy.movement.y, input.move.y, 0.1);
-			this.enemy.shooting = Math.random() > 0.1;
+			ai(this, input);
 		} else {
 			this.enemy.shooting = this.player.shooting = false;
 			this.enemy.movement.x = this.player.movement.x = 0;
