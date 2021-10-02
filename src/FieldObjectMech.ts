@@ -47,7 +47,6 @@ export class FieldObjectMech extends FieldObject {
 		this.sprTorso.anchor.x = 0.5;
 		this.sprTorso.anchor.y = 1.0;
 		this.display.container.addChild(this.sprTorso);
-		// this.sprTorso.y -= 60;
 
 		this.scripts.push(
 			(this.animatorTorso = new Animator(this, { spr: this.sprTorso }))
