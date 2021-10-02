@@ -40,10 +40,10 @@ export class FieldObjectMech extends FieldObject {
 	}
 
 	constructor(public character: string) {
-		super('error', true);
+		super(`${character}_idle_bottom.`, true);
 		this.sprLegs = this.spr;
 		this.animatorLegs = this.animator;
-		this.sprTorso = new Sprite(tex(`error`));
+		this.sprTorso = new Sprite(tex(`${character}_idle_top.`));
 		this.sprTorso.anchor.x = 0.5;
 		this.sprTorso.anchor.y = 1.0;
 		this.display.container.addChild(this.sprTorso);
