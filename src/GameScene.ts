@@ -83,6 +83,8 @@ export class GameScene extends GameObject {
 		rate: number;
 	};
 
+	paused = true;
+
 	constructor() {
 		super();
 
@@ -236,6 +238,29 @@ export class GameScene extends GameObject {
 				this.fieldObjects.push(fo);
 				this.bullets.push(fo);
 			});
+		});
+
+		this.player.transform.y = this.fieldRadius * 0.5;
+		this.enemy.transform.y = -this.fieldRadius * 0.5;
+
+		this.queue.push(async () => {
+			this.log('PRESS FIRE TO START');
+			await new Promise<void>((r) => {
+				const interval = setInterval(() => {
+					if (getInput().shoot) {
+						clearInterval(interval);
+						r();
+					}
+				}, 0);
+			});
+			this.log('3');
+			await this.delay(1000);
+			this.log('2');
+			await this.delay(1000);
+			this.log('1');
+			await this.delay(1000);
+			this.log('FIGHT');
+			this.paused = false;
 		});
 	}
 
@@ -460,14 +485,20 @@ export class GameScene extends GameObject {
 			this.uiHeat.drawRoundedRect(0, 0, 100, 6, 2);
 		}
 
-		// player input
-		this.player.shooting = input.shoot;
-		this.player.movement.x = input.move.x;
-		this.player.movement.y = input.move.y;
-		// TODO: enemy AI
-		this.enemy.movement.x = lerp(this.enemy.movement.x, -input.move.x, 0.1);
-		this.enemy.movement.y = lerp(this.enemy.movement.y, input.move.y, 0.1);
-		this.enemy.shooting = Math.random() > 0.1;
+		if (!this.paused) {
+			// player input
+			this.player.shooting = input.shoot;
+			this.player.movement.x = input.move.x;
+			this.player.movement.y = input.move.y;
+			// TODO: enemy AI
+			this.enemy.movement.x = lerp(this.enemy.movement.x, -input.move.x, 0.1);
+			this.enemy.movement.y = lerp(this.enemy.movement.y, input.move.y, 0.1);
+			this.enemy.shooting = Math.random() > 0.1;
+		} else {
+			this.enemy.shooting = this.player.shooting = false;
+			this.enemy.movement.x = this.player.movement.x = 0;
+			this.enemy.movement.y = this.player.movement.y = 0;
+		}
 
 		this.screenFilter.uniforms.curTime = curTime;
 		this.screenFilter.uniforms.camPos = [
