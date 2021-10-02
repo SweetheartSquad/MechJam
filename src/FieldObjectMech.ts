@@ -72,7 +72,7 @@ export class FieldObjectMech extends FieldObject {
 
 		// update animation
 		if (Math.abs(this.movement.x) > 0) {
-			this.animatorLegs.setAnimation(`${this.character}_strafeLeft_Bottom.`, {
+			this.animatorLegs.setAnimation(`${this.character}_strafe_bottom.`, {
 				1: 2,
 				2: 2,
 				15: 2,
@@ -83,23 +83,21 @@ export class FieldObjectMech extends FieldObject {
 		} else if (Math.abs(this.movement.y) > 0) {
 			this.animatorLegs.freq = 1 / 50;
 			this.sprLegs.scale.x = 1;
-			this.animatorLegs.setAnimation(`${this.character}_forward_Bottom.`);
+			this.animatorLegs.setAnimation(`${this.character}_forward_bottom.`);
 		} else {
-			this.animatorLegs.setAnimation(`${this.character}_Idle_Bottom.`);
+			this.animatorLegs.setAnimation(`${this.character}_idle_bottom.`);
 			this.sprLegs.scale.x = 1;
 			this.animatorLegs.freq = 1 / 200;
 		}
 
 		if (this.overheated) {
-			this.animatorTorso.setAnimation(`${this.character}_Idle_Top.`);
+			this.animatorTorso.setAnimation(`${this.character}_idle_top.`);
 			this.animatorTorso.freq = 1 / 200;
 		} else if (this.shooting) {
-			this.animatorTorso.setAnimation(
-				`${this.character}_stationaryShoot_Top.1`
-			);
+			this.animatorTorso.setAnimation(`${this.character}_shoot_top.1`);
 			this.animatorTorso.freq = 1 / 50;
 		} else {
-			this.animatorTorso.setAnimation(`${this.character}_Idle_Top.`);
+			this.animatorTorso.setAnimation(`${this.character}_idle_top.`);
 			this.animatorTorso.freq = 1 / 200;
 		}
 
