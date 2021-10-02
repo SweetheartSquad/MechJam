@@ -155,10 +155,10 @@ export class GameScene extends GameObject {
 		this.fieldObjects.push(mech);
 
 		this.player = new FieldObjectPlayer('player');
-		this.enemy = new FieldObjectMech('player');
+		this.enemy = new FieldObjectMech('enemy');
+		this.enemy.sprTorso.y += 4;
 		this.enemy.sprLegs.tint = 0xff0000;
 		this.enemy.sprTorso.tint = 0xff0000;
-		this.enemy.sprTorso.scale.x = -1;
 		this.enemy.transform.x = 30;
 		this.enemy.transform.y = 30;
 		this.containerField.addChild(this.player.display.container);

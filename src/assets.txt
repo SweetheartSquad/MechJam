@@ -12,8 +12,14 @@ textures/marker_edge.png
 textures/tree.png
 textures/compass.png
 textures/bullet.png
+
 textures/mechs/player_forward_bottom/player_forward_bottom.x30.png
 textures/mechs/player_idle_top/player_idle_top.x7.png
 textures/mechs/player_idle_bottom/player_idle_bottom.x7.png
 textures/mechs/player_shoot_top/player_shoot_top.x5.png
 textures/mechs/player_strafe_bottom/player_strafe_bottom.x30.png
+
+textures/mechs/enemy_forward_bottom/enemy_forward_bottom.x30.png
+textures/mechs/enemy_idle_top/enemy_idle_top.x7.png
+textures/mechs/enemy_idle_bottom/enemy_idle_bottom.x7.png
+textures/mechs/enemy_shoot_top/enemy_shoot_top.x5.png
