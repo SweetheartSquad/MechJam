@@ -12,6 +12,9 @@ textures/marker_edge.png
 textures/tree.png
 textures/compass.png
 textures/bullet.png
+textures/poof1.png
+textures/poof2.png
+textures/poof3.png
 
 textures/mechs/player_forward_bottom/player_forward_bottom.x30.png
 textures/mechs/player_idle_top/player_idle_top.x7.png

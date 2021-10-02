@@ -204,11 +204,28 @@ export class GameScene extends GameObject {
 						}
 						if (distance2(fo.transform, target.transform) < 20 ** 2) {
 							destroy();
+
 							target.hp -= 1;
 							if (target === this.player) {
 								this.hurt();
 							} else {
-								// positive feedback on enemy hit?
+								const poof = new FieldObject('poof');
+								poof.animator.freq = 1 / 50;
+								poof.transform.x = fo.transform.x;
+								poof.transform.y = fo.transform.y;
+								this.containerField.addChild(poof.display.container);
+								poof.scripts.push({
+									gameObject: poof,
+									update: () => {
+										if (poof.animator.frame === poof.animator.frameCount - 1) {
+											setTimeout(() => {
+												poof.destroy();
+												removeFromArray(this.fieldObjects, poof);
+											});
+										}
+									},
+								});
+								this.shake(2, 60);
 							}
 						}
 					},
