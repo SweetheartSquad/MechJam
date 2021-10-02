@@ -85,6 +85,8 @@ export class GameScene extends GameObject {
 
 	paused = true;
 
+	gameover = true;
+
 	constructor() {
 		super();
 
@@ -483,6 +485,14 @@ export class GameScene extends GameObject {
 		if (this.player.overheated) {
 			this.uiHeat.beginFill(0xff0000, 0.5);
 			this.uiHeat.drawRoundedRect(0, 0, 100, 6, 2);
+		}
+
+		if (this.player.hp <= 0 || this.enemy.hp <= 0) {
+			if (!this.gameover) {
+				this.log(this.player.hp <= 0 ? 'YOU LOSE' : 'YOU WIN');
+			}
+			this.gameover = true;
+			this.paused = true;
 		}
 
 		if (!this.paused) {
