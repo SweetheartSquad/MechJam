@@ -70,7 +70,7 @@ export class FieldObjectMech extends FieldObject {
 
 		// update animation
 		if (Math.abs(this.movement.x) > 0) {
-			this.animatorLegs.setAnimation(`${this.character}_strafe_bottom.`, {
+			this.animatorLegs.setAnimation(`player_strafe_bottom.`, {
 				1: 2,
 				2: 2,
 				15: 2,
