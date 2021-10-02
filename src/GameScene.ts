@@ -149,10 +149,6 @@ export class GameScene extends GameObject {
 			this.containerField.addChild(fo.display.container);
 			this.fieldObjects.push(fo);
 		}
-		const mech = new FieldObjectMech('player');
-		mech.transform.x = this.fieldRadius;
-		this.containerField.addChild(mech.display.container);
-		this.fieldObjects.push(mech);
 
 		this.player = new FieldObjectPlayer('player');
 		this.enemy = new FieldObjectMech('enemy');
