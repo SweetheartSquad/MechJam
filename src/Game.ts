@@ -64,6 +64,7 @@ class Game {
 					}
 					return i;
 				})
+				.filter((i) => i)
 				.map((i) => ({
 					url: `assets/${i}`,
 					name: i.split('/').pop()?.split('.').slice(0, -1).join('.') || i,
