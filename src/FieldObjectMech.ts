@@ -46,7 +46,6 @@ export class FieldObjectMech extends FieldObject {
 		this.sprTorso = new Sprite(tex(`error`));
 		this.sprTorso.anchor.x = 0.5;
 		this.sprTorso.anchor.y = 1.0;
-		this.sprTorso.filters = this.sprLegs.filters;
 		this.display.container.addChild(this.sprTorso);
 		// this.sprTorso.y -= 60;
 

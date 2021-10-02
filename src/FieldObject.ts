@@ -27,9 +27,9 @@ export class FieldObject extends GameObject {
 		this.spr = new Sprite(tex(spr));
 		this.spr.anchor.x = 0.5;
 		this.spr.anchor.y = 1.0;
-		this.spr.filters = [getAlphaFilter()];
+		this.display.container.filters = [getAlphaFilter()];
 		if (outline) {
-			this.spr.filters.unshift(new OutlineFilter(1, 0xffffff));
+			this.display.container.filters.unshift(new OutlineFilter(1, 0xffffff));
 		}
 		this.display.container.addChild(this.spr);
 		this.scripts.push(
