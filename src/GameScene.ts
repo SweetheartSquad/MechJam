@@ -181,18 +181,22 @@ export class GameScene extends GameObject {
 				const target = i === this.player ? this.enemy : this.player;
 				const v = rotate({ x: 0, y: -5 }, rotation);
 				const fo = new FieldObject('bullet');
+				let destroyed = false;
 				if (i === this.enemy) {
 					fo.spr.tint = 0xff0000;
 				}
-				const destroy = () =>
+				const destroy = () => {
+					destroyed = true;
 					setTimeout(() => {
 						fo.destroy();
 						removeFromArray(this.fieldObjects, fo);
 						removeFromArray(this.bullets, fo);
 					});
+				};
 				fo.scripts.push({
 					gameObject: fo,
 					update: () => {
+						if (destroyed) return;
 						fo.transform.x += v.x;
 						fo.transform.y += v.y;
 						if (this.outside(fo)) {
