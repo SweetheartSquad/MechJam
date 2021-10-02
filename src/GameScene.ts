@@ -187,9 +187,7 @@ export class GameScene extends GameObject {
 				const v = rotate({ x: 0, y: -5 }, rotation);
 				const fo = new FieldObject('bullet');
 				let destroyed = false;
-				if (i === this.enemy) {
-					fo.spr.tint = 0xff0000;
-				}
+				fo.spr.tint = i.spr.tint;
 				const destroy = () => {
 					destroyed = true;
 					setTimeout(() => {
