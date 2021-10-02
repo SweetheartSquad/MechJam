@@ -80,6 +80,7 @@ void main(void) {
 	// fx
 	rgb = mix(rgb, overlay.rgb, overlay.a);
 	rgb = mix(rgb, vec3(1.0) - rgb, invert);
+	if (fract(uv.y * size.y * 0.5) > 0.5) rgb*= 0.5;
 
 	// soft vignette
 	float haze = 0.02;
