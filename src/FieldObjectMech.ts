@@ -88,19 +88,17 @@ export class FieldObjectMech extends FieldObject {
 			this.animatorLegs.freq = 1 / 200;
 		}
 
-		if (this.overheated) {
-			this.animatorTorso.setAnimation(`${this.character}_idle_top.`);
-			this.animatorTorso.freq = 1 / 200;
-		} else if (this.shooting) {
-			this.animatorTorso.setAnimation(`${this.character}_shoot_top.1`);
-			this.animatorTorso.freq = 1 / 50;
-		} else {
+		if (this.shooting && !this.overheated) {
+			//
+		} else if (this.animatorTorso.frame === this.animatorTorso.frameCount - 1) {
 			this.animatorTorso.setAnimation(`${this.character}_idle_top.`);
 			this.animatorTorso.freq = 1 / 200;
 		}
 
 		this.movement.x = 0;
 		this.movement.y = 0;
+
+		const couldShoot = this.animatorTorso.frame === 0;
 
 		if (this.shooting) {
 			if (this.canShoot && !this.overheated) {
@@ -111,12 +109,12 @@ export class FieldObjectMech extends FieldObject {
 					add(this.transform, rotate({ x: -30, y: -10 }, -this.rotation)),
 					-this.rotation
 				);
+				this.animatorTorso.setAnimation(`${this.character}_shoot_top.1`);
+				this.animatorTorso.freq = 1 / 50;
 			}
 		} else {
 			this.canShoot = true;
 		}
-
-		const couldShoot = this.animatorTorso.frame === 0;
 
 		this.heat -= 1;
 		if (this.heat <= 0) {

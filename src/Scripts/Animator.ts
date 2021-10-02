@@ -46,7 +46,6 @@ export class Animator extends Script {
 	setAnimation(a: string, holds: { [frame: number]: number } = {}) {
 		if (this.animation === a) return;
 		const [animation, index] = a.split(/(\d+)$/);
-		if (this.animation === animation) return;
 		this.animation = animation;
 		this.frameCount = getFrameCount(animation);
 		this.frames = new Array(this.frameCount)
