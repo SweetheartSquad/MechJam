@@ -99,9 +99,11 @@ export class FieldObjectMech extends FieldObject {
 		this.movement.y = 0;
 
 		const couldShoot = this.animatorTorso.frame === 0;
+		let justShot = false;
 
 		if (this.shooting) {
 			if (this.canShoot && !this.overheated) {
+				justShot = true;
 				this.canShoot = false;
 				this.heat += 20;
 				this.display.container.emit(
@@ -133,7 +135,7 @@ export class FieldObjectMech extends FieldObject {
 		}
 
 		super.update();
-		if (!couldShoot && !this.canShoot) {
+		if (!couldShoot && !this.canShoot && !justShot) {
 			this.canShoot = this.animatorTorso.frame === 0;
 		}
 	}
