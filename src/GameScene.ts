@@ -173,8 +173,8 @@ export class GameScene extends GameObject {
 		this.enemy.sprTorso.y += 4;
 		this.enemy.sprLegs.tint = 0xff0000;
 		this.enemy.sprTorso.tint = 0xff0000;
-		this.enemy.transform.x = 30;
-		this.enemy.transform.y = 30;
+		this.player.transform.y = this.fieldRadius * 0.5;
+		this.enemy.transform.y = -this.fieldRadius * 0.5;
 		this.containerField.addChild(this.player.display.container);
 		this.containerField.addChild(this.enemy.display.container);
 
@@ -262,27 +262,10 @@ export class GameScene extends GameObject {
 			});
 		});
 
-		this.player.transform.y = this.fieldRadius * 0.5;
-		this.enemy.transform.y = -this.fieldRadius * 0.5;
-
 		this.queue.push(async () => {
 			this.log('PRESS FIRE TO START');
-			await new Promise<void>((r) => {
-				const interval = setInterval(() => {
-					if (getInput().shoot) {
-						clearInterval(interval);
-						r();
-					}
-				}, 0);
-			});
-			this.log('3');
-			await this.delay(1000);
-			this.log('2');
-			await this.delay(1000);
-			this.log('1');
-			await this.delay(1000);
-			this.log('FIGHT');
-			this.paused = false;
+			await this.fire();
+			await this.start();
 		});
 	}
 
@@ -305,6 +288,37 @@ export class GameScene extends GameObject {
 			children: true,
 		});
 		this.camera.destroy();
+	}
+
+	fire() {
+		return new Promise<void>((r) => {
+			const interval = setInterval(() => {
+				if (getInput().shoot) {
+					clearInterval(interval);
+					r();
+				}
+			}, 0);
+		});
+	}
+
+	async start() {
+		this.paused = true;
+		this.gameover = false;
+		this.player.hp = Infinity;
+		this.enemy.hp = Infinity;
+		this.player.heat = 0;
+		this.enemy.heat = 0;
+		this.player.transform.y = this.fieldRadius * 0.5;
+		this.enemy.transform.y = -this.fieldRadius * 0.5;
+		this.player.transform.x = this.enemy.transform.x = 0;
+		this.log('3');
+		await this.delay(1000);
+		this.log('2');
+		await this.delay(1000);
+		this.log('1');
+		await this.delay(1000);
+		this.log('FIGHT');
+		this.paused = false;
 	}
 
 	outside(obj: FieldObject) {
@@ -514,6 +528,15 @@ export class GameScene extends GameObject {
 		if (this.player.hp <= 0 || this.enemy.hp <= 0) {
 			if (!this.gameover) {
 				this.log(this.player.hp <= 0 ? 'YOU LOSE' : 'YOU WIN');
+				this.invert();
+				this.queue.push(async () => {
+					await this.delay(2000);
+					this.log('PRESS FIRE TO RESTART');
+					await this.delay(500);
+					await this.fire();
+					this.whiteout();
+					await this.start();
+				});
 			}
 			this.gameover = true;
 			this.paused = true;
