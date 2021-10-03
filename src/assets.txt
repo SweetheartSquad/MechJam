@@ -7,6 +7,8 @@ textures/ditherGrid.png
 textures/error.png
 textures/bg.png
 textures/fg.png
+textures/start.png
+textures/restart.png
 textures/marker.png
 textures/marker_edge.png
 textures/tree_a.png

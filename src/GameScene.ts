@@ -243,8 +243,10 @@ export class GameScene extends GameObject {
 		});
 
 		this.queue.push(async () => {
-			this.log('PRESS FIRE TO START');
+			this.fg.texture = tex('start');
 			await this.fire();
+			this.fg.texture = tex('fg');
+			this.whiteout();
 			await this.start();
 		});
 	}
@@ -323,9 +325,11 @@ export class GameScene extends GameObject {
 
 	async restart() {
 		await this.delay(2000);
-		this.log('PRESS FIRE TO RESTART');
+		this.whiteout();
+		this.fg.texture = tex('restart');
 		await this.delay(500);
 		await this.fire();
+		this.fg.texture = tex('fg');
 		this.whiteout();
 		this.makeProps();
 		this.paused = true;
