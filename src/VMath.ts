@@ -71,3 +71,7 @@ export function rotate(v: V, angle: number): V {
 		y: v.y * Math.cos(angle) + v.x * Math.sin(angle),
 	};
 }
+
+export function angleBetween(a: V, b: V) {
+	return -Math.atan2(a.y - b.y, a.x - b.x) - Math.PI / 2;
+}

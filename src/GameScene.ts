@@ -27,7 +27,15 @@ import {
 	toggleFullscreen,
 	wrap,
 } from './utils';
-import { add, distance2, magnitude2, rotate, subtract, V } from './VMath';
+import {
+	add,
+	angleBetween,
+	distance2,
+	magnitude2,
+	rotate,
+	subtract,
+	V,
+} from './VMath';
 
 export class GameScene extends GameObject {
 	delay = delay;
@@ -300,12 +308,7 @@ export class GameScene extends GameObject {
 
 		// push apart
 		if (distance2(this.player.transform, this.enemy.transform) < 50 * 50) {
-			const a =
-				-Math.atan2(
-					this.enemy.transform.y - this.player.transform.y,
-					this.enemy.transform.x - this.player.transform.x
-				) -
-				Math.PI / 2;
+			const a = angleBetween(this.enemy.transform, this.player.transform);
 			this.enemy.transform.x += Math.cos(a + Math.PI) * 3;
 			this.enemy.transform.y += Math.sin(a + Math.PI) * 3;
 			this.player.transform.x += Math.cos(a) * 3;
@@ -336,12 +339,7 @@ export class GameScene extends GameObject {
 			(this.rotationField / Math.PI) * 0.5 * this.uiCompass.texture.width;
 
 		// update cam + mech rotations
-		const rotation =
-			-Math.atan2(
-				this.enemy.transform.y - this.player.transform.y,
-				this.enemy.transform.x - this.player.transform.x
-			) -
-			Math.PI / 2;
+		const rotation = angleBetween(this.enemy.transform, this.player.transform);
 		this.player.rotation = rotation;
 		this.enemy.rotation = rotation + Math.PI;
 		this.rotationField = slerp(this.rotationField, rotation, 0.1);

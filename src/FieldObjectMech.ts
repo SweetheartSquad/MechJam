@@ -53,13 +53,21 @@ export class FieldObjectMech extends FieldObject {
 		);
 	}
 
+	orbit(delta: V) {
+		const movement = rotate(delta, -this.rotation);
+		return {
+			x: movement.x * 4,
+			y: movement.y * 4,
+		};
+	}
+
 	update() {
 		// update position
 		if (this.controlType === 'orbit') {
 			// orbit controls
-			const movement = rotate(this.movement, -this.rotation);
-			this.transform.x += movement.x * 4;
-			this.transform.y += movement.y * 4;
+			const orbit = this.orbit(this.movement);
+			this.transform.x += orbit.x;
+			this.transform.y += orbit.y;
 		} else {
 			// tank controls
 			const { movement } = this;
