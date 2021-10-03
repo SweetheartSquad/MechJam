@@ -22,6 +22,8 @@ textures/poof2.png
 textures/poof3.png
 textures/portrait_enemy.png
 textures/portrait_player.png
+textures/ui_middle.png
+textures/ui_angle.png
 
 textures/mechs/player_forward_bottom/player_forward_bottom.x30.png
 textures/mechs/player_idle_top/player_idle_top.x7.png

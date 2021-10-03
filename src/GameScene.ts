@@ -80,6 +80,10 @@ export class GameScene extends GameObject {
 
 	fg: Sprite;
 
+	uiMiddle: Sprite;
+
+	uiAngle: Sprite;
+
 	uiOverlay: Sprite;
 
 	animatorBg: Animator;
@@ -114,12 +118,15 @@ export class GameScene extends GameObject {
 		);
 		this.uiCompass.anchor.x = 0.5;
 		this.uiCompass.x = size.x / 2;
+		this.uiCompass.y = 25;
 
 		this.uiMinimap.x = 10;
 		this.uiMinimap.y = 10;
 
 		this.fg = new Sprite(tex('fg'));
 		this.uiOverlay = new Sprite(tex('blank'));
+		this.uiMiddle = new Sprite(tex('ui_middle'));
+		this.uiAngle = new Sprite(tex('ui_angle'));
 		this.scripts.push(
 			(this.animatorBg = new Animator(this, { spr: this.bg, freq: 1 / 800 }))
 		);
@@ -182,6 +189,14 @@ export class GameScene extends GameObject {
 		this.container.addChild(this.containerUI);
 
 		this.containerUI.addChild(this.fg);
+		this.fg.addChild(this.uiMiddle);
+		this.fg.addChild(this.uiAngle);
+		this.uiAngle.x = 80;
+		this.uiAngle.y = size.y * 0.5;
+		this.uiAngle.anchor.y = this.uiAngle.anchor.x = 0.5;
+		this.uiMiddle.anchor.y = this.uiMiddle.anchor.x = 0.5;
+		this.uiMiddle.x = size.x * 0.5;
+		this.uiMiddle.y = size.y * 0.5;
 		this.containerUI.addChild(this.uiDialogue.display.container);
 		this.containerUI.addChild(this.uiHpEnemy);
 		this.containerUI.addChild(this.uiCompass);
@@ -584,6 +599,22 @@ export class GameScene extends GameObject {
 			this.uiHeat.drawRoundedRect(0, 0, 100, 6, 2);
 		}
 
+		this.uiAngle.pivot.y = lerp(
+			this.uiAngle.pivot.y,
+			this.player.movement.y * 10,
+			0.1
+		);
+		this.uiMiddle.pivot.x = lerp(
+			this.uiMiddle.pivot.x,
+			-this.player.movement.x * size.x * 0.02,
+			0.05
+		);
+		this.uiMiddle.pivot.y = lerp(
+			this.uiMiddle.pivot.y,
+			-this.player.movement.y * size.y * 0.02,
+			0.05
+		);
+
 		if (this.player.hp <= 0 || this.enemy.hp <= 0) {
 			if (!this.gameover) {
 				[this.player, this.enemy].forEach((i) => {
@@ -830,6 +861,7 @@ export class GameScene extends GameObject {
 					this.camera.targetPivot.y + randRange(intensity, -intensity) * tt;
 				this.camera.display.container.pivot.x =
 					this.camera.targetPivot.x + randRange(intensity, -intensity) * tt;
+				this.uiAngle.pivot.y += randRange(intensity, -intensity);
 				return 0;
 			}
 		);
@@ -838,6 +870,7 @@ export class GameScene extends GameObject {
 	kick(x = 0, y = 0) {
 		this.camera.display.container.pivot.x += x;
 		this.camera.display.container.pivot.y += y;
+		this.uiAngle.pivot.y += y * -5;
 	}
 
 	hurt(duration = 200) {
