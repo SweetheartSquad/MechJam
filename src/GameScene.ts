@@ -310,6 +310,13 @@ export class GameScene extends GameObject {
 	}
 
 	async start() {
+
+	async restart() {
+		await this.delay(2000);
+		this.log('PRESS FIRE TO RESTART');
+		await this.delay(500);
+		await this.fire();
+		this.whiteout();
 		this.paused = true;
 		this.gameover = false;
 		this.player.hp = Infinity;
@@ -321,6 +328,10 @@ export class GameScene extends GameObject {
 		this.player.transform.x = this.enemy.transform.x = 0;
 		this.player.sprTorso.alpha = this.player.sprLegs.alpha = 1;
 		this.enemy.sprTorso.alpha = this.enemy.sprLegs.alpha = 1;
+		await this.start();
+	}
+
+	async start() {
 		this.log('3');
 		await this.delay(1000);
 		this.log('2');
@@ -328,6 +339,7 @@ export class GameScene extends GameObject {
 		this.log('1');
 		await this.delay(1000);
 		this.log('FIGHT');
+		this.overlay([1, 1, 1, 0.1]);
 		this.paused = false;
 	}
 
@@ -558,14 +570,7 @@ export class GameScene extends GameObject {
 				});
 				this.log(this.player.hp <= 0 ? 'YOU LOSE' : 'YOU WIN');
 				this.invert();
-				this.queue.push(async () => {
-					await this.delay(2000);
-					this.log('PRESS FIRE TO RESTART');
-					await this.delay(500);
-					await this.fire();
-					this.whiteout();
-					await this.start();
-				});
+				this.queue.push(() => this.restart());
 			}
 			this.gameover = true;
 			this.paused = true;
