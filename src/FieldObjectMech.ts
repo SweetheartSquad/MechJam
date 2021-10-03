@@ -103,9 +103,6 @@ export class FieldObjectMech extends FieldObject {
 			this.animatorTorso.freq = 1 / 200;
 		}
 
-		this.movement.x = 0;
-		this.movement.y = 0;
-
 		const couldShoot = this.animatorTorso.frame === 0;
 		let justShot = false;
 
