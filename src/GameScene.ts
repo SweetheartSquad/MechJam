@@ -204,7 +204,7 @@ export class GameScene extends GameObject {
 					i.movement.x * 0.25;
 				// @ts-ignore
 				fo.rotation = rotation;
-				const v = rotate({ x: 0, y: -5 }, rotation);
+				const v = rotate({ x: 0, y: -5 + i.movement.y * 2 }, rotation);
 				const destroy = () => {
 					destroyed = true;
 					setTimeout(() => {
