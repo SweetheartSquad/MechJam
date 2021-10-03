@@ -219,7 +219,7 @@ export class GameScene extends GameObject {
 						if (destroyed) return;
 						fo.transform.x += v.x;
 						fo.transform.y += v.y;
-						if (this.outside(fo)) {
+						if (this.outside(fo, 1.1)) {
 							destroy();
 						}
 						if (
@@ -363,9 +363,9 @@ export class GameScene extends GameObject {
 		this.paused = false;
 	}
 
-	outside(obj: FieldObject) {
+	outside(obj: FieldObject, mult = 1) {
 		const mp = magnitude2(obj.transform);
-		if (mp > this.fieldRadius * this.fieldRadius) {
+		if (mp > this.fieldRadius * this.fieldRadius * mult) {
 			return mp;
 		}
 		return false;
