@@ -70,17 +70,20 @@ export function getInput(): {
 			gamepads.isJustDown(Buttons.BACK) ||
 			keys.isJustDown(KEYS.ESCAPE),
 		shoot:
-			gamepads.isDown(Buttons.A) ||
 			gamepads.isDown(Buttons.B) ||
 			gamepads.isDown(Buttons.X) ||
-			gamepads.isDown(Buttons.Y) ||
 			keys.isDown(KEYS.SPACE) ||
 			keys.isDown(KEYS.E) ||
 			keys.isDown(KEYS.Z) ||
-			keys.isDown(KEYS.X) ||
+			keys.isDown(KEYS.C) ||
 			keys.isDown(KEYS.ENTER),
 		melee: false,
-		dash: false,
+		dash:
+			gamepads.isDown(Buttons.A) ||
+			gamepads.isDown(Buttons.Y) ||
+			keys.isDown(KEYS.SHIFT) ||
+			keys.isDown(KEYS.X) ||
+			keys.isDown(KEYS.V),
 	};
 
 	if (

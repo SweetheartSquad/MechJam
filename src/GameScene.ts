@@ -574,6 +574,7 @@ export class GameScene extends GameObject {
 		if (!this.paused) {
 			// player input
 			this.player.shooting = input.shoot;
+			this.player.dashing = input.dash;
 			this.player.movement.x = input.move.x;
 			this.player.movement.y = input.move.y;
 			ai(this, input);
