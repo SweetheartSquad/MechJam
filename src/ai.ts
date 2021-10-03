@@ -8,8 +8,14 @@ let targetDist = 300;
 let targetDistV = 50;
 let dirChange = 100;
 let shootChange = 100;
+let speed = 0.1;
 
 export function ai(scene: GameScene, input: ReturnType<typeof getInput>) {
+	if (speed >= 1) {
+		speed = 1;
+	} else {
+		speed += 0.005;
+	}
 	dirChange -= game.app.ticker.deltaTime;
 	shootChange -= game.app.ticker.deltaTime;
 
@@ -120,4 +126,6 @@ export function ai(scene: GameScene, input: ReturnType<typeof getInput>) {
 			scene.enemy.shooting = prevShooting;
 		}
 	}
+	scene.enemy.movement.x = Math.sign(scene.enemy.movement.x) * speed;
+	scene.enemy.movement.y = Math.sign(scene.enemy.movement.y) * speed;
 }
