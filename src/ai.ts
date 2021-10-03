@@ -124,10 +124,15 @@ export function ai(scene: GameScene, input: ReturnType<typeof getInput>) {
 	if (magnitude2(scene.player.movement) < 1) {
 		scene.enemy.shooting = scene.enemy.shooting || Math.random() > 0.5;
 	}
+	// higher chance of shooting if heat low
+	if (scene.enemy.heat < scene.enemy.heatMax * 0.1) {
+		shootChange *= 0.9;
+		scene.enemy.shooting = scene.enemy.shooting || Math.random() > 0.5;
+	}
 	// prevent shooting changes too often
 	if (prevShooting !== scene.enemy.shooting) {
 		if (shootChange <= 0) {
-			shootChange = 50 + Math.random() * 150;
+			shootChange = 10 + Math.random() * 200;
 		} else {
 			scene.enemy.shooting = prevShooting;
 		}
