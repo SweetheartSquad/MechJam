@@ -194,13 +194,13 @@ export class GameScene extends GameObject {
 		this.uiMiddle.anchor.y = this.uiMiddle.anchor.x = 0.5;
 		this.uiMiddle.x = size.x * 0.5;
 		this.uiMiddle.y = size.y * 0.5;
-		this.containerUI.addChild(this.uiDialogue.display.container);
 		this.containerUI.addChild(this.uiHpEnemy);
 		this.containerUI.addChild(this.uiCompass);
 		this.containerUI.addChild(this.uiMinimap);
 		this.containerUI.addChild(this.uiHpPlayer);
 		this.containerUI.addChild(this.uiHeat);
 		this.containerUI.addChild(this.uiOverlay);
+		this.containerUI.addChild(this.uiDialogue.display.container);
 
 		this.container.interactiveChildren = false;
 		// @ts-ignore
