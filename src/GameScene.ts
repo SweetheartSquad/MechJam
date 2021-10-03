@@ -120,9 +120,6 @@ export class GameScene extends GameObject {
 		this.uiCompass.x = size.x / 2;
 		this.uiCompass.y = 25;
 
-		this.uiMinimap.x = 10;
-		this.uiMinimap.y = 10;
-
 		this.fg = new Sprite(tex('fg'));
 		this.uiOverlay = new Sprite(tex('blank'));
 		this.uiMiddle = new Sprite(tex('ui_middle'));
@@ -511,8 +508,8 @@ export class GameScene extends GameObject {
 			2
 		);
 		this.uiMinimap.endFill();
-		this.uiMinimap.x = 10 + this.uiMinimap.width / 2;
-		this.uiMinimap.y = 10 + this.uiMinimap.height / 2;
+		this.uiMinimap.x = size.x - 160 + this.uiMinimap.width / 2;
+		this.uiMinimap.y = size.y - 60 + this.uiMinimap.height / 2;
 
 		this.uiHpEnemy.x = lerp(
 			this.uiHpEnemy.x,
