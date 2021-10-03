@@ -190,12 +190,20 @@ export class GameScene extends GameObject {
 		this.container.accessibleChildren = false;
 
 		[this.player, this.enemy].forEach((i) => {
-			i.display.container.on('shoot', (pos: V, rotation: number) => {
+			i.display.container.on('shoot', (pos: V) => {
 				const target = i === this.player ? this.enemy : this.player;
-				const v = rotate({ x: 0, y: -5 }, rotation);
 				const fo = new FieldObject('bullet');
+				fo.transform.x = pos.x;
+				fo.transform.y = pos.y;
+				// @ts-ignore
+				fo.target = target;
 				let destroyed = false;
 				fo.spr.tint = i.spr.tint;
+				const rotation =
+					-angleBetween(fo.transform, target.transform) + Math.PI;
+				// @ts-ignore
+				fo.rotation = rotation;
+				const v = rotate({ x: 0, y: -5 }, rotation);
 				const destroy = () => {
 					destroyed = true;
 					setTimeout(() => {
@@ -241,8 +249,6 @@ export class GameScene extends GameObject {
 						}
 					},
 				});
-				fo.transform.x = pos.x;
-				fo.transform.y = pos.y;
 				this.containerField.addChild(fo.display.container);
 				this.fieldObjects.push(fo);
 				this.bullets.push(fo);

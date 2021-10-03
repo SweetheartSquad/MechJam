@@ -116,8 +116,7 @@ export class FieldObjectMech extends FieldObject {
 				this.heat += 20;
 				this.display.container.emit(
 					'shoot',
-					add(this.transform, rotate({ x: -30, y: -10 }, -this.rotation)),
-					-this.rotation
+					add(this.transform, rotate({ x: -30, y: -10 }, -this.rotation))
 				);
 				this.animatorTorso.setAnimation(`${this.character}_shoot_top.1`);
 				this.animatorTorso.freq = 1 / 50;
