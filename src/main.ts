@@ -6,7 +6,6 @@ import { GameScene } from './GameScene';
 import { keys, KEYS } from './input-keys';
 import { Mouse } from './input-mouse';
 import { size } from './size';
-import { clamp } from './utils';
 
 const gamepads = new Gamepads();
 let mouse: Mouse;
@@ -141,8 +140,8 @@ export function getInput(): {
 		}
 	}
 
-	res.move.x = clamp(-1.0, res.move.x, 1.0);
-	res.move.y = clamp(-1.0, res.move.y, 1.0);
+	res.move.x = Math.sign(res.move.x);
+	res.move.y = Math.sign(res.move.y);
 
 	return res;
 }
