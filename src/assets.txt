@@ -9,7 +9,10 @@ textures/bg.png
 textures/fg.png
 textures/marker.png
 textures/marker_edge.png
-textures/tree.png
+textures/tree_a.png
+textures/tree_b.png
+textures/tree_c.png
+textures/stump_a.png
 textures/compass.png
 textures/bullet.png
 textures/poof1.png

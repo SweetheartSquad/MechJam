@@ -19,6 +19,7 @@ import {
 	andList,
 	delay,
 	lerp,
+	randItem,
 	randRange,
 	removeFromArray,
 	shuffle,
@@ -156,7 +157,9 @@ export class GameScene extends GameObject {
 
 		// props
 		for (let i = 0; i < 20; ++i) {
-			const fo = new FieldObject('tree');
+			const fo = new FieldObject(
+				randItem(['tree_a', 'tree_b', 'tree_c', 'stump_a'])
+			);
 			fo.transform.x = randRange(-this.fieldRadius, this.fieldRadius);
 			fo.transform.y = randRange(-this.fieldRadius, this.fieldRadius);
 			this.containerField.addChild(fo.display.container);
