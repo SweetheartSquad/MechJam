@@ -156,15 +156,7 @@ export class GameScene extends GameObject {
 		}
 
 		// props
-		for (let i = 0; i < 20; ++i) {
-			const fo = new FieldObject(
-				randItem(['tree_a', 'tree_b', 'tree_c', 'stump_a'])
-			);
-			fo.transform.x = randRange(-this.fieldRadius, this.fieldRadius);
-			fo.transform.y = randRange(-this.fieldRadius, this.fieldRadius);
-			this.containerField.addChild(fo.display.container);
-			this.fieldObjects.push(fo);
-		}
+		this.makeProps();
 
 		this.player = new FieldObjectPlayer('player');
 		this.enemy = new FieldObjectMech('enemy');
@@ -265,6 +257,8 @@ export class GameScene extends GameObject {
 
 	fieldObjects: FieldObject[] = [];
 
+	props: FieldObject[] = [];
+
 	bullets: FieldObject[] = [];
 
 	rotationField = 0;
@@ -309,7 +303,23 @@ export class GameScene extends GameObject {
 		});
 	}
 
-	async start() {
+	makeProps() {
+		this.props.forEach((i) => {
+			i.destroy();
+			removeFromArray(this.fieldObjects, i);
+		});
+		this.props.length = 0;
+		for (let i = 0; i < 20; ++i) {
+			const fo = new FieldObject(
+				randItem(['tree_a', 'tree_b', 'tree_c', 'stump_a'])
+			);
+			fo.transform.x = randRange(-this.fieldRadius, this.fieldRadius);
+			fo.transform.y = randRange(-this.fieldRadius, this.fieldRadius);
+			this.containerField.addChild(fo.display.container);
+			this.fieldObjects.push(fo);
+			this.props.push(fo);
+		}
+	}
 
 	async restart() {
 		await this.delay(2000);
@@ -317,6 +327,7 @@ export class GameScene extends GameObject {
 		await this.delay(500);
 		await this.fire();
 		this.whiteout();
+		this.makeProps();
 		this.paused = true;
 		this.gameover = false;
 		this.player.hp = Infinity;
