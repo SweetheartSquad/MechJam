@@ -2,7 +2,7 @@ import { Sprite, Texture } from 'pixi.js';
 import { FieldObject } from './FieldObject';
 import { Animator } from './Scripts/Animator';
 import { tex } from './utils';
-import { add, rotate, V } from './VMath';
+import { add, magnitude2, rotate, V } from './VMath';
 
 export class FieldObjectMech extends FieldObject {
 	animPrev?: Texture;
@@ -20,6 +20,10 @@ export class FieldObjectMech extends FieldObject {
 	canShoot = true;
 
 	shooting = false;
+
+	dashing = false;
+
+	dashMult = 1;
 
 	controlType: 'tank' | 'orbit' = 'orbit';
 
@@ -66,6 +70,17 @@ export class FieldObjectMech extends FieldObject {
 		if (this.controlType === 'orbit') {
 			// orbit controls
 			const orbit = this.orbit(this.movement);
+			if (this.dashing && !this.overheated) {
+				this.dashMult = 1.5;
+				orbit.x *= this.dashMult;
+				orbit.y *= this.dashMult;
+				if (magnitude2(orbit) > 0) {
+					this.heat += 2;
+				}
+			} else {
+				this.dashMult = 1;
+			}
+
 			this.transform.x += orbit.x;
 			this.transform.y += orbit.y;
 		} else {
@@ -86,9 +101,9 @@ export class FieldObjectMech extends FieldObject {
 			});
 			this.sprLegs.scale.x =
 				-Math.sign(this.movement.x) * (this.character !== 'player' ? -1 : 1);
-			this.animatorLegs.freq = 1 / 50;
+			this.animatorLegs.freq = (1 / 50) * this.dashMult;
 		} else if (Math.abs(this.movement.y) > 0) {
-			this.animatorLegs.freq = 1 / 50;
+			this.animatorLegs.freq = (1 / 50) * this.dashMult;
 			this.sprLegs.scale.x = 1;
 			this.animatorLegs.setAnimation(`${this.character}_forward_bottom.`);
 		} else {
