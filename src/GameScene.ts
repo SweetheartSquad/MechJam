@@ -319,6 +319,8 @@ export class GameScene extends GameObject {
 		this.player.transform.y = this.fieldRadius * 0.5;
 		this.enemy.transform.y = -this.fieldRadius * 0.5;
 		this.player.transform.x = this.enemy.transform.x = 0;
+		this.player.sprTorso.alpha = this.player.sprLegs.alpha = 1;
+		this.enemy.sprTorso.alpha = this.enemy.sprLegs.alpha = 1;
 		this.log('3');
 		await this.delay(1000);
 		this.log('2');
@@ -535,6 +537,25 @@ export class GameScene extends GameObject {
 
 		if (this.player.hp <= 0 || this.enemy.hp <= 0) {
 			if (!this.gameover) {
+				[this.player, this.enemy].forEach((i) => {
+					if (i.hp <= 0) {
+						TweenManager.tween(i.sprTorso, 'alpha', 0, 2000);
+						TweenManager.tween(i.sprLegs, 'alpha', 0, 2000);
+						new Array(100).fill(0).forEach((_, idx) => {
+							this.delay(idx * 20).then(() => {
+								const p = this.poof(i.transform);
+								p.display.container.pivot.x = randRange(
+									-i.display.container.width / 2,
+									i.display.container.width / 2
+								);
+								p.display.container.pivot.y = randRange(
+									-i.display.container.height / 2,
+									i.display.container.height / 2
+								);
+							});
+						});
+					}
+				});
 				this.log(this.player.hp <= 0 ? 'YOU LOSE' : 'YOU WIN');
 				this.invert();
 				this.queue.push(async () => {
