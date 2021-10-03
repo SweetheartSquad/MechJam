@@ -200,7 +200,9 @@ export class GameScene extends GameObject {
 				let destroyed = false;
 				fo.spr.tint = i.spr.tint;
 				const rotation =
-					-angleBetween(fo.transform, target.transform) + Math.PI;
+					-angleBetween(fo.transform, target.transform) +
+					Math.PI +
+					i.movement.x * 0.25;
 				// @ts-ignore
 				fo.rotation = rotation;
 				const v = rotate({ x: 0, y: -5 }, rotation);
