@@ -1,5 +1,6 @@
 import { Sprite, Texture } from 'pixi.js';
 import { FieldObject } from './FieldObject';
+import { game } from './Game';
 import { Animator } from './Scripts/Animator';
 import { tex } from './utils';
 import { add, magnitude2, rotate, V } from './VMath';
@@ -75,7 +76,7 @@ export class FieldObjectMech extends FieldObject {
 				orbit.x *= this.dashMult;
 				orbit.y *= this.dashMult;
 				if (magnitude2(orbit) > 0) {
-					this.heat += 2;
+					this.heat += 2 * game.app.ticker.deltaTime;
 				}
 			} else {
 				this.dashMult = 1;
@@ -138,7 +139,7 @@ export class FieldObjectMech extends FieldObject {
 			this.canShoot = true;
 		}
 
-		this.heat -= 1;
+		this.heat -= 1 * game.app.ticker.deltaTime;
 		if (this.heat <= 0) {
 			this.heat = 0;
 			this.overheated = false;
