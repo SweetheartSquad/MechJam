@@ -85,6 +85,15 @@ export function ai(scene: GameScene, input: ReturnType<typeof getInput>) {
 		scene.enemy.movement.y = -1;
 	}
 
+	// don't rotate if player standing still and no bullets (more likely to shoot player this way)
+	if (
+		// @ts-ignore
+		scene.bullets.filter((i) => i.target === scene.enemy).length <= 0 &&
+		Math.abs(scene.player.movement.x) < 1
+	) {
+		scene.enemy.movement.x = 0;
+	}
+
 	// prevent movement changes too often
 	if (
 		prevMove.x !== scene.enemy.movement.x ||
