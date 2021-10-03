@@ -565,35 +565,35 @@ export class GameScene extends GameObject {
 		}
 
 		this.uiHpPlayer.x = size.x - 72;
-		this.uiHpPlayer.y = size.y - 50;
+		this.uiHpPlayer.y = size.y - 48;
 		this.uiHpPlayer.clear();
 		this.uiHpPlayer.lineStyle(1, 0xffffff, 1);
-		this.uiHpPlayer.drawRoundedRect(0, -80, 10, 80, 2);
+		this.uiHpPlayer.drawRoundedRect(0, -85, 10, 85, 2);
 		this.uiHpPlayer.lineStyle(0);
 		this.uiHpPlayer.beginFill(0x00ff00, 0.8);
 		this.uiHpPlayer.drawRect(
 			1,
-			-80 + 1,
+			-85 + 1,
 			8,
-			78 * (this.player.hp / this.player.hpMax)
+			83 * (this.player.hp / this.player.hpMax)
 		);
 
 		this.uiHeat.x = size.x - 72;
-		this.uiHeat.y = 50;
+		this.uiHeat.y = 48;
 		this.uiHeat.clear();
 		this.uiHeat.lineStyle(1, 0xffffff, 1);
-		this.uiHeat.drawRoundedRect(0, 0, 10, 80, 2);
+		this.uiHeat.drawRoundedRect(0, 0, 10, 85, 2);
 		this.uiHeat.lineStyle(0);
 		this.uiHeat.beginFill(0xffff00, 0.8);
 		this.uiHeat.drawRect(
 			1,
 			1,
 			8,
-			78 * (this.player.heat / this.player.heatMax)
+			83 * (this.player.heat / this.player.heatMax)
 		);
 		if (this.player.overheated) {
 			this.uiHeat.beginFill(0xff0000, 0.5);
-			this.uiHeat.drawRoundedRect(0, 0, 10, 80, 2);
+			this.uiHeat.drawRoundedRect(0, 0, 10, 85, 2);
 		}
 
 		this.uiAngle.pivot.y = lerp(
