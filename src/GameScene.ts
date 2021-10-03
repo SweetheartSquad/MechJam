@@ -76,6 +76,8 @@ export class GameScene extends GameObject {
 
 	uiHpEnemy: Graphics = new Graphics();
 
+	hitmarker = 0;
+
 	fg: TilingSprite;
 
 	animatorBg: Animator;
@@ -234,6 +236,8 @@ export class GameScene extends GameObject {
 							} else {
 								this.poof(fo.transform);
 								this.shake(2, 60);
+								// @ts-ignore
+								TweenManager.tween(this, 'hitmarker', 0, 300, 1, quadIn);
 							}
 						}
 					},
@@ -512,8 +516,9 @@ export class GameScene extends GameObject {
 			w * 1.5,
 			2
 		);
+		const offset = this.player.movement.x * 30;
 		this.uiHpEnemy.drawRoundedRect(
-			-w * 0.25 * 0.5 + this.player.movement.x * 30,
+			-w * 0.25 * 0.5 + offset,
 			-w * 0.25 * 0.5 - h * 0.5,
 			w * 0.25,
 			w * 0.25,
@@ -534,6 +539,14 @@ export class GameScene extends GameObject {
 			w * 1.5 * (this.enemy.hp / this.enemy.hpMax) - 2,
 			4
 		);
+		this.uiHpEnemy.endFill();
+		if (this.hitmarker > 0) {
+			this.uiHpEnemy.lineStyle(1, 0xff0000, this.hitmarker);
+			this.uiHpEnemy.moveTo(offset - 5, -h * 0.5);
+			this.uiHpEnemy.lineTo(offset + 5, -h * 0.5);
+			this.uiHpEnemy.moveTo(offset, -h * 0.5 - 5);
+			this.uiHpEnemy.lineTo(offset, -h * 0.5 + 5);
+		}
 
 		this.uiHpPlayer.x = 10;
 		this.uiHpPlayer.y = size.y - 40;
