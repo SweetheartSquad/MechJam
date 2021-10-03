@@ -238,22 +238,7 @@ export class GameScene extends GameObject {
 							if (target === this.player) {
 								this.hurt();
 							} else {
-								const poof = new FieldObject('poof');
-								poof.animator.freq = 1 / 50;
-								poof.transform.x = fo.transform.x;
-								poof.transform.y = fo.transform.y;
-								this.containerField.addChild(poof.display.container);
-								poof.scripts.push({
-									gameObject: poof,
-									update: () => {
-										if (poof.animator.frame === poof.animator.frameCount - 1) {
-											setTimeout(() => {
-												poof.destroy();
-												removeFromArray(this.fieldObjects, poof);
-											});
-										}
-									},
-								});
+								this.poof(fo.transform);
 								this.shake(2, 60);
 							}
 						}
@@ -291,6 +276,26 @@ export class GameScene extends GameObject {
 			children: true,
 		});
 		this.camera.destroy();
+	}
+
+	poof(pos: V) {
+		const poof = new FieldObject('poof');
+		poof.animator.freq = 1 / 50;
+		poof.transform.x = pos.x;
+		poof.transform.y = pos.y;
+		this.containerField.addChild(poof.display.container);
+		poof.scripts.push({
+			gameObject: poof,
+			update: () => {
+				if (poof.animator.frame === poof.animator.frameCount - 1) {
+					setTimeout(() => {
+						poof.destroy();
+						removeFromArray(this.fieldObjects, poof);
+					});
+				}
+			},
+		});
+		return poof;
 	}
 
 	fire() {
