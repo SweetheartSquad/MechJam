@@ -298,6 +298,20 @@ export class GameScene extends GameObject {
 		const curTime = game.app.ticker.lastTime;
 		const input = getInput();
 
+		// push apart
+		if (distance2(this.player.transform, this.enemy.transform) < 50 * 50) {
+			const a =
+				-Math.atan2(
+					this.enemy.transform.y - this.player.transform.y,
+					this.enemy.transform.x - this.player.transform.x
+				) -
+				Math.PI / 2;
+			this.enemy.transform.x += Math.cos(a + Math.PI) * 3;
+			this.enemy.transform.y += Math.sin(a + Math.PI) * 3;
+			this.player.transform.x += Math.cos(a) * 3;
+			this.player.transform.y += Math.sin(a) * 3;
+		}
+
 		// keep inside arena
 		[this.player, this.enemy].forEach((obj: FieldObject) => {
 			const mp = this.outside(obj);
