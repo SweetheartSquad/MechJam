@@ -1,13 +1,28 @@
+import { game } from './Game';
 import { GameScene } from './GameScene';
 import { getInput } from './main';
 import { lerp } from './utils';
-import { add, angleBetween, distance, V } from './VMath';
+import { add, angleBetween, clone, distance, magnitude2, V } from './VMath';
 
 let targetDist = 300;
 let targetDistV = 50;
+let dirChange = 100;
+let shootChange = 100;
 
 export function ai(scene: GameScene, input: ReturnType<typeof getInput>) {
-	scene.enemy.shooting = Math.random() > 0.1;
+	dirChange -= game.app.ticker.deltaTime;
+	shootChange -= game.app.ticker.deltaTime;
+
+	// arbitrarily shift target distance
+	targetDist += targetDistV;
+	targetDistV += (Math.random() - 0.5) * 10;
+	targetDistV *= 0.9;
+	targetDist = lerp(targetDist, 300, 0.01);
+	if (targetDist < 100) {
+		targetDist = lerp(targetDist, 300, 0.1);
+	}
+
+	// calculate danger based on bullet trajectories + target distance
 	const calcDanger = (pos: V) => {
 		let danger = 0;
 		scene.bullets.forEach((i) => {
@@ -33,15 +48,9 @@ export function ai(scene: GameScene, input: ReturnType<typeof getInput>) {
 		}
 		return danger;
 	};
-	targetDist += targetDistV;
-	targetDistV += (Math.random() - 0.5) * 10;
-	targetDistV *= 0.9;
-	targetDist = lerp(targetDist, 300, 0.01);
-	if (targetDist < 100) {
-		targetDist = lerp(targetDist, 300, 0.1);
-	}
-	const curDanger = calcDanger(scene.enemy.transform);
 
+	// move away from "danger"
+	const curDanger = calcDanger(scene.enemy.transform);
 	const rDanger = calcDanger(
 		add(scene.enemy.transform, scene.enemy.orbit({ x: 1, y: 0 }))
 	);
@@ -54,6 +63,7 @@ export function ai(scene: GameScene, input: ReturnType<typeof getInput>) {
 	const dDanger = calcDanger(
 		add(scene.enemy.transform, scene.enemy.orbit({ x: 0, y: -1 }))
 	);
+	const prevMove = clone(scene.enemy.movement);
 	if (curDanger <= rDanger && curDanger <= lDanger) {
 		scene.enemy.movement.x = 0;
 	} else if (
@@ -73,5 +83,32 @@ export function ai(scene: GameScene, input: ReturnType<typeof getInput>) {
 		scene.enemy.movement.y = 1;
 	} else {
 		scene.enemy.movement.y = -1;
+	}
+
+	// prevent movement changes too often
+	if (
+		prevMove.x !== scene.enemy.movement.x ||
+		prevMove.y !== scene.enemy.movement.y
+	) {
+		if (dirChange <= 0) {
+			dirChange = 50 + Math.random() * 150;
+		} else {
+			scene.enemy.movement = prevMove;
+		}
+	}
+
+	const prevShooting = scene.enemy.shooting;
+	scene.enemy.shooting = Math.random() > 0.5;
+	// higher chance of shooting if player standing still
+	if (magnitude2(scene.player.movement) < 1) {
+		scene.enemy.shooting = scene.enemy.shooting || Math.random() > 0.5;
+	}
+	// prevent shooting changes too often
+	if (prevShooting !== scene.enemy.shooting) {
+		if (shootChange <= 0) {
+			shootChange = 50 + Math.random() * 150;
+		} else {
+			scene.enemy.shooting = prevShooting;
+		}
 	}
 }
