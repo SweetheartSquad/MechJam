@@ -84,7 +84,8 @@ export class FieldObjectMech extends FieldObject {
 				15: 2,
 				16: 2,
 			});
-			this.sprLegs.scale.x = -Math.sign(this.movement.x);
+			this.sprLegs.scale.x =
+				-Math.sign(this.movement.x) * (this.character !== 'player' ? -1 : 1);
 			this.animatorLegs.freq = 1 / 50;
 		} else if (Math.abs(this.movement.y) > 0) {
 			this.animatorLegs.freq = 1 / 50;
