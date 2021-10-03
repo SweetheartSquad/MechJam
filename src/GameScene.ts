@@ -15,6 +15,7 @@ import { ScreenFilter } from './ScreenFilter';
 import { Animator } from './Scripts/Animator';
 import { size } from './size';
 import { TweenManager } from './Tweens';
+import { UIDialogue } from './UIDialogue';
 import {
 	andList,
 	delay,
@@ -176,6 +177,7 @@ export class GameScene extends GameObject {
 		this.container.addChild(this.containerUI);
 
 		this.containerUI.addChild(this.fg);
+		this.containerUI.addChild(this.uiDialogue.display.container);
 		this.containerUI.addChild(this.uiHpEnemy);
 		this.containerUI.addChild(this.uiCompass);
 		this.containerUI.addChild(this.uiMinimap);
@@ -267,6 +269,8 @@ export class GameScene extends GameObject {
 
 	fieldRadius = 500;
 
+	uiDialogue = new UIDialogue();
+
 	destroy(): void {
 		this.container.destroy({
 			children: true,
@@ -354,6 +358,7 @@ export class GameScene extends GameObject {
 		this.log('1');
 		await this.delay(1000);
 		this.log('FIGHT');
+		this.uiDialogue.say('DIE!', 'DIE!');
 		this.overlay([1, 1, 1, 0.1]);
 		this.paused = false;
 	}
