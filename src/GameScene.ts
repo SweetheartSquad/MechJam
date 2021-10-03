@@ -513,10 +513,10 @@ export class GameScene extends GameObject {
 			2
 		);
 		this.uiHpEnemy.drawRoundedRect(
-			-w * 0.5 * 0.5,
-			-w * 0.5 * 0.5 - h * 0.5,
-			w * 0.5,
-			w * 0.5,
+			-w * 0.25 * 0.5 + this.player.movement.x * 30,
+			-w * 0.25 * 0.5 - h * 0.5,
+			w * 0.25,
+			w * 0.25,
 			4
 		);
 		this.uiHpEnemy.drawRoundedRect(
