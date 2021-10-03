@@ -228,7 +228,10 @@ export class GameScene extends GameObject {
 						if (this.outside(fo)) {
 							destroy();
 						}
-						if (distance2(fo.transform, target.transform) < 20 ** 2) {
+						if (
+							distance2(fo.transform, target.transform) < 20 ** 2 &&
+							!this.gameover
+						) {
 							destroy();
 
 							target.hp -= 1;
