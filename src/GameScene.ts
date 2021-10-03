@@ -651,9 +651,10 @@ export class GameScene extends GameObject {
 	async log(log: string) {
 		this.sfx('sfx0');
 		const textLog = new BitmapText(wrap(log, 20), fontLog);
-		textLog.x = size.x - (fontLog.fontSize as number) * 20 - 40;
-		textLog.y = 40;
-		textLog.anchor.y = 1.0;
+		textLog.x = size.x * 0.5;
+		textLog.y = size.y - (fontLog.fontSize ?? 0) - 20;
+		textLog.anchor.y = 0.5;
+		textLog.anchor.x = 0.5;
 		textLog.alpha = 0;
 		textLog.filters = [filterTextOutline, getAlphaFilter()];
 		const containerLog = new Container();

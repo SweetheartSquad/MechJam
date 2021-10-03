@@ -9,8 +9,8 @@ export const fontDialogue: Partial<IBitmapTextStyle> = {
 
 export const fontLog: Partial<IBitmapTextStyle> = {
 	fontName: 'fontfnt',
-	fontSize: 12,
-	align: 'left',
+	fontSize: 16,
+	align: 'center',
 };
 
 export const filterTextOutline = new OutlineFilter(4, 0, 1);
