@@ -1,6 +1,6 @@
 import { quadIn, quadOut, quartIn } from 'eases';
 import { Howl } from 'howler';
-import { BitmapText, Container, Graphics, TilingSprite } from 'pixi.js';
+import { BitmapText, Container, Graphics, Sprite, TilingSprite } from 'pixi.js';
 import { ai } from './ai';
 import { getAlphaFilter } from './AlphaFilter';
 import { Camera } from './Camera';
@@ -78,7 +78,9 @@ export class GameScene extends GameObject {
 
 	hitmarker = 0;
 
-	fg: TilingSprite;
+	fg: Sprite;
+
+	uiOverlay: Sprite;
 
 	animatorBg: Animator;
 
@@ -116,7 +118,8 @@ export class GameScene extends GameObject {
 		this.uiMinimap.x = 10;
 		this.uiMinimap.y = 10;
 
-		this.fg = new TilingSprite(tex('fg'), size.x, size.y);
+		this.fg = new Sprite(tex('fg'));
+		this.uiOverlay = new Sprite(tex('blank'));
 		this.scripts.push(
 			(this.animatorBg = new Animator(this, { spr: this.bg, freq: 1 / 800 }))
 		);
@@ -185,6 +188,7 @@ export class GameScene extends GameObject {
 		this.containerUI.addChild(this.uiMinimap);
 		this.containerUI.addChild(this.uiHpPlayer);
 		this.containerUI.addChild(this.uiHeat);
+		this.containerUI.addChild(this.uiOverlay);
 
 		this.container.interactiveChildren = false;
 		// @ts-ignore
@@ -249,9 +253,9 @@ export class GameScene extends GameObject {
 		});
 
 		this.queue.push(async () => {
-			this.fg.texture = tex('start');
+			this.uiOverlay.texture = tex('start');
 			await this.fire();
-			this.fg.texture = tex('fg');
+			this.uiOverlay.texture = tex('blank');
 			this.whiteout();
 			await this.start();
 		});
@@ -334,10 +338,10 @@ export class GameScene extends GameObject {
 	async restart() {
 		await this.delay(2000);
 		this.whiteout();
-		this.fg.texture = tex('restart');
+		this.uiOverlay.texture = tex('restart');
 		await this.delay(500);
 		await this.fire();
-		this.fg.texture = tex('fg');
+		this.uiOverlay.texture = tex('blank');
 		this.whiteout();
 		this.makeProps();
 		this.paused = true;
