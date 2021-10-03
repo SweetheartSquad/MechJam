@@ -95,7 +95,7 @@ export class GameScene extends GameObject {
 
 	paused = true;
 
-	gameover = true;
+	gameover = false;
 
 	constructor() {
 		super();
