@@ -168,6 +168,8 @@ export class GameScene extends GameObject {
 
 		this.player = new FieldObjectPlayer('player');
 		this.enemy = new FieldObjectMech('enemy');
+		this.player.hpMax = 3;
+		this.enemy.hpMax = 10;
 		this.enemy.sprTorso.y += 4;
 		this.enemy.sprLegs.tint = 0xff0000;
 		this.enemy.sprTorso.tint = 0xff0000;
