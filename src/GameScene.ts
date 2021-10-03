@@ -376,7 +376,7 @@ export class GameScene extends GameObject {
 		const input = getInput();
 
 		// push apart
-		if (distance2(this.player.transform, this.enemy.transform) < 50 * 50) {
+		if (distance2(this.player.transform, this.enemy.transform) < 100 * 100) {
 			const a = angleBetween(this.enemy.transform, this.player.transform);
 			this.enemy.transform.x += Math.cos(a + Math.PI) * 3;
 			this.enemy.transform.y += Math.sin(a + Math.PI) * 3;
