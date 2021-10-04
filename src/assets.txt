@@ -9,6 +9,7 @@ textures/bg.png
 textures/bg_a.png
 textures/bg_b.png
 textures/bg_c.png
+textures/bg_d.png
 textures/fg.png
 textures/start.png
 textures/restart.png
