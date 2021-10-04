@@ -1,7 +1,13 @@
-import { hex2rgb, rgb2hex } from '@pixi/utils';
 import { quadIn, quadOut, quartIn } from 'eases';
 import { Howl } from 'howler';
-import { BitmapText, Container, Graphics, Sprite, TilingSprite } from 'pixi.js';
+import {
+	BitmapText,
+	Container,
+	Graphics,
+	Sprite,
+	TilingSprite,
+	utils,
+} from 'pixi.js';
 import { ai } from './ai';
 import { getAlphaFilter } from './AlphaFilter';
 import { Camera } from './Camera';
@@ -217,8 +223,6 @@ export class GameScene extends GameObject {
 				// @ts-ignore
 				fo.target = target;
 				let destroyed = false;
-				const rgb = hex2rgb(i.spr.tint);
-				fo.spr.tint = rgb2hex(rgb);
 				const rotation =
 					-angleBetween(fo.transform, target.transform) +
 					Math.PI +
@@ -234,6 +238,7 @@ export class GameScene extends GameObject {
 						removeFromArray(this.bullets, fo);
 					});
 				};
+				const rgb = utils.hex2rgb(i.spr.tint);
 				fo.scripts.push({
 					gameObject: fo,
 					update: () => {
@@ -244,7 +249,7 @@ export class GameScene extends GameObject {
 							destroy();
 						}
 						const d = distance2(fo.transform, target.transform);
-						fo.spr.tint = rgb2hex(
+						fo.spr.tint = utils.rgb2hex(
 							rgb.map((c) => lerp(1, c, clamp(0, 1 - d / 50000, 1)))
 						);
 						if (d < 20 ** 2 && !this.gameover) {

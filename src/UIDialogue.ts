@@ -1,7 +1,5 @@
-import { Graphics } from '@pixi/graphics';
-import { Sprite } from '@pixi/sprite';
-import { BitmapText } from '@pixi/text-bitmap';
 import { backOut, bounceOut, quadOut } from 'eases';
+import { BitmapText, Graphics, Sprite } from 'pixi.js';
 import { getAlphaFilter } from './AlphaFilter';
 import { fontDialogue } from './font';
 import { GameObject } from './GameObject';
