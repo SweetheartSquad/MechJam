@@ -1,5 +1,6 @@
 /font/fontimg.png
 /font/fontfnt.fnt
+audio/music.mp3
 audio/sfx0.mp3
 textures/black.png
 textures/blank.png
