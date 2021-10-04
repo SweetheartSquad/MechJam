@@ -422,6 +422,9 @@ export class GameScene extends GameObject {
 		this.log('1');
 		await this.delay(1000);
 		this.log('FIGHT');
+		this.delay(1000).then(() => {
+			this.log('');
+		});
 		this.overlay([1, 1, 1, 0.1]);
 		this.paused = false;
 	}
@@ -776,7 +779,7 @@ export class GameScene extends GameObject {
 		this.sfx('sfx0');
 		const textLog = new BitmapText(wrap(log, 20), fontLog);
 		textLog.x = size.x * 0.5;
-		textLog.y = size.y - (fontLog.fontSize ?? 0) - 20;
+		textLog.y = size.y - (fontLog.fontSize ?? 0) - 80;
 		textLog.anchor.y = 0.5;
 		textLog.anchor.x = 0.5;
 		textLog.alpha = 0;
@@ -795,7 +798,7 @@ export class GameScene extends GameObject {
 		const t2 = TweenManager.tween(
 			containerLog,
 			'y',
-			textLog.height + 10,
+			textLog.height + 40,
 			200,
 			undefined,
 			quadOut
