@@ -146,6 +146,9 @@ export class GameScene extends GameObject {
 					0.02 + 1 * (this.player.heat / this.player.heatMax);
 				if (this.player.overheated) {
 					this.uiTextscroll.tilePosition.y += 1;
+					this.uiTextscroll.tint = 0xff0000;
+				} else {
+					this.uiTextscroll.tint = 0xffffff;
 				}
 			},
 		});
