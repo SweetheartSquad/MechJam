@@ -18,7 +18,9 @@ export class FieldObjectPlayer extends FieldObjectMech {
 				this.animator.frame === Math.floor(this.animator.frameCount / 2)) &&
 			!this.animator.animation.includes('idle')
 		) {
-			(getActiveScene() as GameScene).kick(0, 2);
+			const scene = getActiveScene() as GameScene;
+			scene.kick(0, 2);
+			scene.sfx('sfx_stomp', { rate: 1 + Math.random() * 0.2 - 0.1 });
 		}
 		this.display.container.x = size.x / 2;
 		this.display.container.y = size.y;

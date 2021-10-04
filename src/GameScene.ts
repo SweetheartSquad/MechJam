@@ -237,6 +237,14 @@ export class GameScene extends GameObject {
 
 		[this.player, this.enemy].forEach((i) => {
 			i.display.container.on('shoot', (pos: V) => {
+				if (i === this.player) {
+					this.sfx('sfx_shoot', { rate: 1 + Math.random() * 0.2 - 0.1 });
+				} else {
+					this.sfx('sfx_shoot', {
+						rate: 1 + Math.random() * 0.2 - 0.1,
+						volume: 0.25,
+					});
+				}
 				const target = i === this.player ? this.enemy : this.player;
 				const fo = new FieldObject('bullet');
 				fo.transform.x = pos.x;
@@ -280,8 +288,10 @@ export class GameScene extends GameObject {
 							if (target === this.player) {
 								if (this.player.hp > 0 && Math.random() < 0.5) this.say('hurt');
 								this.hurt();
+								this.sfx('sfx_hurt');
 							} else {
 								if (this.enemy.hp > 0 && Math.random() < 0.5) this.say('hit');
+								this.sfx('sfx_hit');
 								this.poof(fo.transform);
 								this.shake(2, 60);
 								// @ts-ignore
@@ -298,6 +308,7 @@ export class GameScene extends GameObject {
 		this.player.display.container.on('overheat', () => {
 			if (Math.random() < 0.25) this.say('overheat');
 			this.overlay([1, 0.5, 0, 0.25]);
+			this.sfx('sfx_overheat');
 		});
 
 		this.queue.push(async () => {
@@ -417,12 +428,16 @@ export class GameScene extends GameObject {
 		this.music('music', { fade: 100 });
 		this.say('start');
 		this.log('3');
+		this.sfx('sfx_countdown_ding');
 		await this.delay(1000);
 		this.log('2');
+		this.sfx('sfx_countdown_ding');
 		await this.delay(1000);
 		this.log('1');
+		this.sfx('sfx_countdown_ding');
 		await this.delay(1000);
 		this.log('FIGHT');
+		this.sfx('sfx_countdown_dong');
 		this.delay(1000).then(() => {
 			this.log('');
 		});
@@ -454,6 +469,7 @@ export class GameScene extends GameObject {
 			await p;
 			if (ref !== this.sayRef) return;
 			if (!line) return;
+			this.sfx('sfx_comms_chatter');
 			await this.uiDialogue[idx % 2 ? 'sayEnemy' : 'sayPlayer'](line);
 		}, Promise.resolve());
 		if (ref !== this.sayRef) return;
@@ -688,6 +704,7 @@ export class GameScene extends GameObject {
 
 		if (this.player.hp <= 0 || this.enemy.hp <= 0) {
 			if (!this.gameover) {
+				this.sfx('sfx_gameover');
 				[this.player, this.enemy].forEach((i) => {
 					if (i.hp <= 0) {
 						TweenManager.tween(i.sprTorso, 'alpha', 0, 2000);
@@ -777,7 +794,6 @@ export class GameScene extends GameObject {
 	}
 
 	async log(log: string) {
-		this.sfx('sfx0');
 		const textLog = new BitmapText(wrap(log, 20), fontLog);
 		textLog.x = size.x * 0.5;
 		textLog.y = size.y - (fontLog.fontSize ?? 0) - 80;
