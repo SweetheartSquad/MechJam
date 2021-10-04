@@ -277,6 +277,7 @@ export class GameScene extends GameObject {
 		});
 		this.player.display.container.on('overheat', () => {
 			if (Math.random() < 0.25) this.say('overheat');
+			this.overlay([1, 0.5, 0, 0.25]);
 		});
 
 		this.queue.push(async () => {
