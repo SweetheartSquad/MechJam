@@ -415,11 +415,17 @@ export class GameScene extends GameObject {
 
 	private sayRef = 0;
 
+	private sayCache: Partial<typeof dialogue> = {};
+
 	async say(key: keyof typeof dialogue) {
 		this.dialogueDelay = Infinity;
 		const ref = ++this.sayRef;
-		const sequence = randItem(dialogue[key]);
-		await sequence.reduce(async (p, line, idx) => {
+		let sequences = this.sayCache[key];
+		if (!sequences?.length)
+			this.sayCache[key] = sequences = shuffle(dialogue[key]);
+
+		const sequence = sequences.pop();
+		await sequence?.reduce(async (p, line, idx) => {
 			await p;
 			if (ref !== this.sayRef) return;
 			if (!line) return;
