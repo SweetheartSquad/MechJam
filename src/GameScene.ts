@@ -395,6 +395,7 @@ export class GameScene extends GameObject {
 		this.uiOverlay.texture = tex('restart');
 		await this.delay(500);
 		await this.fire();
+		this.bg.texture = tex(randItem(['bg_b', 'bg_c']));
 		this.uiOverlay.texture = tex('blank');
 		this.whiteout();
 		this.makeProps();

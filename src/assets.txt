@@ -6,6 +6,7 @@ textures/blank.png
 textures/ditherGrid.png
 textures/error.png
 textures/bg.png
+textures/bg_b.png
 textures/bg_c.png
 textures/fg.png
 textures/start.png
