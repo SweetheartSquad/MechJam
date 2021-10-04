@@ -306,7 +306,6 @@ export class GameScene extends GameObject {
 			this.uiOverlay.texture = tex('blank');
 			this.whiteout();
 			await this.start();
-			this.music('music');
 		});
 	}
 
@@ -415,6 +414,7 @@ export class GameScene extends GameObject {
 	}
 
 	async start() {
+		this.music('music', { fade: 100 });
 		this.say('start');
 		this.log('3');
 		await this.delay(1000);
