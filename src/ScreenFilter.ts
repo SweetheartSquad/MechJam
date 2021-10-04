@@ -1,4 +1,3 @@
-import { Texture, WRAP_MODES } from 'pixi.js';
 import { CustomFilter } from './CustomFilter';
 import { resources } from './Game';
 import { size } from './size';
@@ -10,7 +9,6 @@ export class ScreenFilter extends CustomFilter<{
 	camPos: [number, number];
 	size: [number, number];
 	uNoise: number;
-	ditherGridMap: Texture;
 }> {
 	constructor() {
 		super(resources.frag.data);
@@ -20,9 +18,6 @@ export class ScreenFilter extends CustomFilter<{
 		this.uniforms.camPos = [0, 0];
 		this.uniforms.uNoise = 0.2;
 		this.uniforms.size = [size.x, size.y];
-		(resources.ditherGrid.texture as Texture).baseTexture.wrapMode =
-			WRAP_MODES.REPEAT;
-		this.uniforms.ditherGridMap = resources.ditherGrid.texture as Texture;
 		this.padding = 0;
 	}
 }

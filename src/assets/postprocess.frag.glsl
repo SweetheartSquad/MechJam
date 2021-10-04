@@ -9,8 +9,6 @@ uniform float curTime;
 uniform vec2 camPos;
 uniform vec2 size;
 uniform float uNoise;
-uniform sampler2D ditherGridMap;
-const vec2 ditherSize = vec2(4.0);
 const float posterize = 32.0;
 const float brightness = 1.0;
 const float contrast = 1.0;
@@ -53,18 +51,6 @@ float vignette(vec2 uv, float amount){
 	return clamp((1.0-uv.y*uv.y)*(1.0-uv.x*uv.x)/amount, 0.0, 1.0);
 }
 
-vec3 dither(vec3 rgbPreDither) {
-	// dither
-	vec2 uvDither = fract(((gl_FragCoord.xy - mod(gl_FragCoord.xy, 1.0)) + vec2(0.5)) / (ditherSize.xy));
-	vec3 limit = texture2D(ditherGridMap, uvDither).rgb;
-	// posterization
-	vec3 posterized = rgbPreDither - mod(rgbPreDither, 1.0/posterize);
-	// dithering
-	vec3 dither = step(limit, (rgbPreDither-posterized)*posterize)/posterize;
-	// output
-	return posterized + dither;
-}
-
 void main(void) {
 	// get pixels
 	vec2 uv = vTextureCoord;
@@ -89,10 +75,6 @@ void main(void) {
 	rgb += ((noise((uv+noiseT1)*size.xy*vec2(0.01, 1.0)) * noise((uv+noiseT1)*size.xy)) - 0.25)*(1.0-vignette(uv,1.0)*0.75)*uNoise;
 	// hard edge vignette
 	rgb *= vignette(uv, 0.05);
-
-	// 
-	// rgbPreDither = (rgbPreDither - 0.5 + (brightness - 1.0)) * contrast + 0.5;
-	rgb = dither(rgb);
 
 	gl_FragColor = vec4(rgb, 1.0);
 	// gl_FragColor = vec4(texture2D(uSampler, uvPreview).rgb, 1.0);
