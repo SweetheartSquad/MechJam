@@ -11,6 +11,7 @@ import {
 import { ai } from './ai';
 import { getAlphaFilter } from './AlphaFilter';
 import { Camera } from './Camera';
+import { dialogue } from './dialogue';
 import { FieldObject } from './FieldObject';
 import { FieldObjectMech } from './FieldObjectMech';
 import { FieldObjectPlayer } from './FieldObjectPlayer';
@@ -385,6 +386,7 @@ export class GameScene extends GameObject {
 	}
 
 	async start() {
+		this.say('start');
 		this.log('3');
 		await this.delay(1000);
 		this.log('2');
@@ -392,7 +394,6 @@ export class GameScene extends GameObject {
 		this.log('1');
 		await this.delay(1000);
 		this.log('FIGHT');
-		this.uiDialogue.say('DIE!', 'DIE!');
 		this.overlay([1, 1, 1, 0.1]);
 		this.paused = false;
 	}
@@ -403,6 +404,19 @@ export class GameScene extends GameObject {
 			return mp;
 		}
 		return false;
+	}
+
+	private sayRef = 0;
+
+	async say(key: keyof typeof dialogue) {
+		const ref = ++this.sayRef;
+		const sequence = randItem(dialogue[key]);
+		sequence.reduce(async (p, line, idx) => {
+			await p;
+			if (ref !== this.sayRef) return;
+			if (!line) return;
+			await this.uiDialogue[idx % 2 ? 'sayEnemy' : 'sayPlayer'](line);
+		}, Promise.resolve());
 	}
 
 	update(): void {
@@ -648,6 +662,7 @@ export class GameScene extends GameObject {
 					}
 				});
 				this.log(this.player.hp <= 0 ? 'YOU LOSE' : 'YOU WIN');
+				this.say(this.player.hp <= 0 ? 'lose' : 'win');
 				this.invert();
 				this.queue.push(() => this.restart());
 			}
