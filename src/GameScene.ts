@@ -1,3 +1,4 @@
+import { hex2rgb, rgb2hex } from '@pixi/utils';
 import { quadIn, quadOut, quartIn } from 'eases';
 import { Howl } from 'howler';
 import { BitmapText, Container, Graphics, Sprite, TilingSprite } from 'pixi.js';
@@ -18,6 +19,7 @@ import { TweenManager } from './Tweens';
 import { UIDialogue } from './UIDialogue';
 import {
 	andList,
+	clamp,
 	delay,
 	lerp,
 	randItem,
@@ -215,7 +217,8 @@ export class GameScene extends GameObject {
 				// @ts-ignore
 				fo.target = target;
 				let destroyed = false;
-				fo.spr.tint = i.spr.tint;
+				const rgb = hex2rgb(i.spr.tint);
+				fo.spr.tint = rgb2hex(rgb);
 				const rotation =
 					-angleBetween(fo.transform, target.transform) +
 					Math.PI +
@@ -240,10 +243,11 @@ export class GameScene extends GameObject {
 						if (this.outside(fo, 1.1)) {
 							destroy();
 						}
-						if (
-							distance2(fo.transform, target.transform) < 20 ** 2 &&
-							!this.gameover
-						) {
+						const d = distance2(fo.transform, target.transform);
+						fo.spr.tint = rgb2hex(
+							rgb.map((c) => lerp(1, c, clamp(0, 1 - d / 50000, 1)))
+						);
+						if (d < 20 ** 2 && !this.gameover) {
 							destroy();
 
 							target.hp -= 1;
