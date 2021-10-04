@@ -85,6 +85,8 @@ export class GameScene extends GameObject {
 
 	uiHpEnemy: Graphics = new Graphics();
 
+	uiTextscroll: TilingSprite;
+
 	hitmarker = 0;
 
 	fg: Sprite;
@@ -133,6 +135,20 @@ export class GameScene extends GameObject {
 		this.uiOverlay = new Sprite(tex('blank'));
 		this.uiMiddle = new Sprite(tex('ui_middle'));
 		this.uiAngle = new Sprite(tex('ui_angle'));
+		this.uiTextscroll = new TilingSprite(tex('textscroll'), 17, 73);
+		this.uiTextscroll.x = 421;
+		this.uiTextscroll.y = 42;
+		this.scripts.push({
+			// @ts-ignore
+			gameObject: undefined,
+			update: () => {
+				this.uiTextscroll.tilePosition.y +=
+					0.02 + 1 * (this.player.heat / this.player.heatMax);
+				if (this.player.overheated) {
+					this.uiTextscroll.tilePosition.y += 1;
+				}
+			},
+		});
 		this.scripts.push(
 			(this.animatorBg = new Animator(this, { spr: this.bg, freq: 1 / 800 }))
 		);
@@ -195,6 +211,7 @@ export class GameScene extends GameObject {
 		this.container.addChild(this.containerUI);
 
 		this.containerUI.addChild(this.fg);
+		this.fg.addChild(this.uiTextscroll);
 		this.fg.addChild(this.uiMiddle);
 		this.fg.addChild(this.uiAngle);
 		this.uiAngle.x = 80;
