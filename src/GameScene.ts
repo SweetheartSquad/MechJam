@@ -371,7 +371,6 @@ export class GameScene extends GameObject {
 	}
 
 	async restart() {
-		await this.delay(2000);
 		this.whiteout();
 		this.uiOverlay.texture = tex('restart');
 		await this.delay(500);
@@ -684,9 +683,11 @@ export class GameScene extends GameObject {
 					}
 				});
 				this.log(this.player.hp <= 0 ? 'YOU LOSE' : 'YOU WIN');
-				this.say(this.player.hp <= 0 ? 'lose' : 'win');
 				this.invert();
-				this.queue.push(() => this.restart());
+				this.queue.push(async () => {
+					await this.say(this.player.hp <= 0 ? 'lose' : 'win');
+					await this.restart();
+				});
 			}
 			this.gameover = true;
 			this.paused = true;
