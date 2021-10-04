@@ -127,7 +127,7 @@ export class GameScene extends GameObject {
 		);
 		this.uiCompass.anchor.x = 0.5;
 		this.uiCompass.x = size.x / 2;
-		this.uiCompass.y = 25;
+		this.uiCompass.y = 30;
 
 		this.fg = new Sprite(tex('fg'));
 		this.uiOverlay = new Sprite(tex('blank'));
@@ -473,7 +473,8 @@ export class GameScene extends GameObject {
 			(this.rotationField / Math.PI / 2) * this.bg.texture.width +
 			curTime / 1000;
 		this.uiCompass.tilePosition.x =
-			(this.rotationField / Math.PI) * 0.5 * this.uiCompass.texture.width;
+			((this.rotationField / Math.PI) * 0.5 - 1 / 8) *
+			this.uiCompass.texture.width;
 
 		// update cam + mech rotations
 		const rotation = angleBetween(this.enemy.transform, this.player.transform);
