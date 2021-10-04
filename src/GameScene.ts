@@ -582,7 +582,7 @@ export class GameScene extends GameObject {
 		this.uiHpPlayer.beginFill(0x00ff00, 0.8);
 		this.uiHpPlayer.drawRect(
 			1,
-			-85 + 1,
+			-85 + 1 + 83 * (1.0 - this.player.hp / this.player.hpMax),
 			8,
 			83 * (this.player.hp / this.player.hpMax)
 		);
