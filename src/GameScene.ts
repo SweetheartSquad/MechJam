@@ -720,7 +720,7 @@ export class GameScene extends GameObject {
 			containerLog.addChild(lastLog);
 		}
 		this.logs.push(containerLog);
-		game.app.stage.addChild(containerLog);
+		this.containerUI.addChild(containerLog);
 		const t1 = TweenManager.tween(textLog, 'alpha', 1, 200, undefined, quadOut);
 		const t2 = TweenManager.tween(
 			containerLog,
