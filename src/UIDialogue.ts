@@ -95,7 +95,7 @@ export class UIDialogue extends GameObject {
 		}
 	}
 
-	private doSay(
+	private async doSay(
 		toSay: string,
 		text: BitmapText,
 		portrait: Sprite,
@@ -113,8 +113,12 @@ export class UIDialogue extends GameObject {
 				TweenManager.tween(text, 'alpha', 1, 500, undefined, bounceOut);
 				TweenManager.tween(text, 'alpha', 1, 500, undefined, bounceOut);
 			});
+		} else {
+			TweenManager.tween(text, 'alpha', 1, 500, 0, bounceOut);
+			TweenManager.tween(text, 'alpha', 1, 500, 0, bounceOut);
 		}
-		delay(2000).then(() => {
+		await delay(Math.max(1500, toSay.length * 70));
+		delay(500).then(() => {
 			if (text.text !== wrapped) return;
 			TweenManager.tween(text, 'alpha', 0, 200, undefined, bounceOut);
 			TweenManager.tween(graphics, 'alpha', 0, 300, undefined, (t) => {
@@ -126,11 +130,16 @@ export class UIDialogue extends GameObject {
 	}
 
 	sayEnemy(text: string) {
-		this.doSay(text, this.textEnemy, this.sprPortraitEnemy, this.graphicsEnemy);
+		return this.doSay(
+			text,
+			this.textEnemy,
+			this.sprPortraitEnemy,
+			this.graphicsEnemy
+		);
 	}
 
 	sayPlayer(text: string) {
-		this.doSay(
+		return this.doSay(
 			text,
 			this.textPlayer,
 			this.sprPortraitPlayer,
@@ -139,7 +148,6 @@ export class UIDialogue extends GameObject {
 	}
 
 	say(player: string, enemy: string) {
-		this.sayPlayer(player);
-		this.sayEnemy(enemy);
+		return Promise.all([this.sayPlayer(player), this.sayEnemy(enemy)]);
 	}
 }
