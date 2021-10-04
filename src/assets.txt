@@ -20,6 +20,10 @@ textures/bullet.png
 textures/poof1.png
 textures/poof2.png
 textures/poof3.png
+textures/poof4.png
+textures/poof5.png
+textures/poof6.png
+textures/poof7.png
 textures/portrait_enemy.png
 textures/portrait_player.png
 textures/ui_middle.png

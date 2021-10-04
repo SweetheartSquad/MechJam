@@ -299,8 +299,13 @@ export class GameScene extends GameObject {
 	}
 
 	poof(pos: V) {
-		const poof = new FieldObject('poof');
-		poof.animator.freq = 1 / 50;
+		const poof = new FieldObject('blank');
+		poof.animator.setAnimation('poof', {
+			5: 2,
+			6: 3,
+			7: 4,
+		});
+		poof.animator.freq = 1 / 100;
 		poof.transform.x = pos.x;
 		poof.transform.y = pos.y;
 		this.containerField.addChild(poof.display.container);
