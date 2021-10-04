@@ -146,6 +146,9 @@ export class FieldObjectMech extends FieldObject {
 		}
 		if (this.heat > this.heatMax) {
 			this.heat = this.heatMax;
+			if (!this.overheated) {
+				this.display.container.emit('overheat');
+			}
 			this.overheated = true;
 		}
 		if (this.hp < 0) {
