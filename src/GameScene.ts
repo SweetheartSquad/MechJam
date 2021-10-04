@@ -258,8 +258,10 @@ export class GameScene extends GameObject {
 
 							target.hp -= 1;
 							if (target === this.player) {
+								if (this.player.hp > 0 && Math.random() < 0.5) this.say('hurt');
 								this.hurt();
 							} else {
+								if (this.enemy.hp > 0 && Math.random() < 0.5) this.say('hit');
 								this.poof(fo.transform);
 								this.shake(2, 60);
 								// @ts-ignore
@@ -272,6 +274,9 @@ export class GameScene extends GameObject {
 				this.fieldObjects.push(fo);
 				this.bullets.push(fo);
 			});
+		});
+		this.player.display.container.on('overheat', () => {
+			if (Math.random() < 0.25) this.say('overheat');
 		});
 
 		this.queue.push(async () => {
@@ -300,6 +305,8 @@ export class GameScene extends GameObject {
 	fieldRadius = 500;
 
 	uiDialogue = new UIDialogue();
+
+	dialogueDelay = 5000;
 
 	destroy(): void {
 		this.container.destroy({
@@ -409,14 +416,21 @@ export class GameScene extends GameObject {
 	private sayRef = 0;
 
 	async say(key: keyof typeof dialogue) {
+		this.dialogueDelay = Infinity;
 		const ref = ++this.sayRef;
 		const sequence = randItem(dialogue[key]);
-		sequence.reduce(async (p, line, idx) => {
+		await sequence.reduce(async (p, line, idx) => {
 			await p;
 			if (ref !== this.sayRef) return;
 			if (!line) return;
 			await this.uiDialogue[idx % 2 ? 'sayEnemy' : 'sayPlayer'](line);
 		}, Promise.resolve());
+		if (ref !== this.sayRef) return;
+		this.dialogueDelay =
+			2000 +
+			Math.random() * 10000 +
+			Math.random() * 10000 +
+			Math.random() * 10000;
 	}
 
 	update(): void {
@@ -677,6 +691,12 @@ export class GameScene extends GameObject {
 			this.player.movement.x = input.move.x;
 			this.player.movement.y = input.move.y;
 			ai(this, input);
+
+			if (this.dialogueDelay < 0) {
+				this.say('delay');
+			} else {
+				this.dialogueDelay -= game.app.ticker.deltaMS;
+			}
 		} else {
 			this.enemy.shooting = this.player.shooting = false;
 			this.enemy.movement.x = this.player.movement.x = 0;
