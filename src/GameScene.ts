@@ -118,7 +118,7 @@ export class GameScene extends GameObject {
 	constructor() {
 		super();
 
-		this.bg = new TilingSprite(tex('bg'), size.x, size.y);
+		this.bg = new TilingSprite(tex('bg_c'), size.x, size.y);
 		const texCompass = tex('compass');
 		this.uiCompass = new TilingSprite(
 			texCompass,
