@@ -731,7 +731,7 @@ export class GameScene extends GameObject {
 						});
 					}
 				});
-				this.log(this.player.hp <= 0 ? 'YOU LOSE' : 'YOU WIN');
+				this.log(this.player.hp <= 0 ? 'LOSS' : 'WIN');
 				this.invert();
 				this.queue.push(async () => {
 					await this.say(this.player.hp <= 0 ? 'lose' : 'win');
