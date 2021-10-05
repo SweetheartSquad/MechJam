@@ -267,7 +267,6 @@ export class GameScene extends GameObject {
 						removeFromArray(this.bullets, fo);
 					});
 				};
-				const rgb = utils.hex2rgb(i.spr.tint);
 				fo.scripts.push({
 					gameObject: fo,
 					update: () => {
@@ -278,9 +277,11 @@ export class GameScene extends GameObject {
 							destroy();
 						}
 						const d = distance2(fo.transform, target.transform);
-						fo.spr.tint = utils.rgb2hex(
-							rgb.map((c) => lerp(1, c, clamp(0, 1 - d / 50000, 1)))
-						);
+						fo.spr.tint = utils.rgb2hex([
+							lerp(0.5, 1, clamp(0, 1 - d / 50000, 1)),
+							0,
+							0,
+						]);
 						if (d < 20 ** 2 && !this.gameover) {
 							destroy();
 
