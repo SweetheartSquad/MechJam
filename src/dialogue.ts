@@ -248,7 +248,7 @@ export const dialogue = {
 		],
 		[
 			'',
-			"Advanced Bipedal Battle Armour. Fitting, isn't it?",
+			'Advanced Bipedal Battle Armour. Fitting.',
 			'Why?',
 			'Battle.',
 			'',
