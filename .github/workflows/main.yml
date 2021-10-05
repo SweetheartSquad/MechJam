@@ -19,6 +19,6 @@ jobs:
         env:
           BUTLER_CREDENTIALS: ${{ secrets.ITCH_API_KEY }}
           CHANNEL: win-linux-mac-stable
-          ITCH_GAME: mech-jam
+          ITCH_GAME: advanced-bipedal-battle-armour
           ITCH_USER: sweetheartsquad
           PACKAGE: dist
