@@ -119,6 +119,7 @@ export class GameScene extends GameObject {
 
 	constructor() {
 		super();
+		this.music('music', { fade: 3000 });
 
 		this.bg = new TilingSprite(tex('bg_c'), size.x, size.y);
 		const texCompass = tex('compass');
@@ -428,7 +429,6 @@ export class GameScene extends GameObject {
 	}
 
 	async start() {
-		this.music('music', { fade: 100 });
 		this.say('start');
 		this.log('3');
 		this.sfx('sfx_countdown_ding');
