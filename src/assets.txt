@@ -3,7 +3,8 @@
 
 audio/music.mp3
 
-audio/sfx_comms_chatter.mp3
+audio/sfx_comms_chatter_player.mp3
+audio/sfx_comms_chatter_enemy.mp3
 audio/sfx_countdown_ding.mp3
 audio/sfx_countdown_dong.mp3
 audio/sfx_gameover.mp3

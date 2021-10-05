@@ -469,7 +469,9 @@ export class GameScene extends GameObject {
 			await p;
 			if (ref !== this.sayRef) return;
 			if (!line) return;
-			this.sfx('sfx_comms_chatter');
+			this.sfx(
+				idx % 2 ? 'sfx_comms_chatter_enemy' : 'sfx_comms_chatter_player'
+			);
 			await this.uiDialogue[idx % 2 ? 'sayEnemy' : 'sayPlayer'](line);
 		}, Promise.resolve());
 		if (ref !== this.sayRef) return;
