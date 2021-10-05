@@ -974,9 +974,9 @@ export class GameScene extends GameObject {
 		this.uiAngle.pivot.y += y * -5;
 	}
 
-	hurt(duration = 200) {
-		this.overlay([1, 0, 0, 0.1], duration);
-		this.shake(5, duration);
-		this.buzz(1, duration);
+	hurt(duration = 300) {
+		this.overlay([1, 0, 0, 0.2], duration);
+		this.shake(10, duration);
+		this.buzz(2, duration);
 	}
 }
