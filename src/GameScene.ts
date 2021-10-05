@@ -289,7 +289,7 @@ export class GameScene extends GameObject {
 							destroy();
 
 							target.hp -= 1;
-							if (target === this.player) {
+							if (target === this.player && this.iframes <= 0) {
 								if (this.player.hp > 0 && Math.random() < 0.5) this.say('hurt');
 								this.hurt();
 								this.sfx('sfx_hurt');
@@ -343,6 +343,8 @@ export class GameScene extends GameObject {
 	uiDialogue = new UIDialogue();
 
 	dialogueDelay = 5000;
+
+	iframes = 0;
 
 	destroy(): void {
 		this.container.destroy({
@@ -978,5 +980,8 @@ export class GameScene extends GameObject {
 		this.overlay([1, 0, 0, 0.2], duration);
 		this.shake(10, duration);
 		this.buzz(2, duration);
+		this.iframes = 500;
+		// @ts-ignore
+		TweenManager.tween(this, 'iframes', 0, 500, 500);
 	}
 }
