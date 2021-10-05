@@ -288,18 +288,21 @@ export class GameScene extends GameObject {
 						if (d < 20 ** 2 && !this.gameover) {
 							destroy();
 
-							target.hp -= 1;
-							if (target === this.player && this.iframes <= 0) {
-								if (this.player.hp > 0 && Math.random() < 0.5) this.say('hurt');
-								this.hurt();
-								this.sfx('sfx_hurt');
-							} else {
-								if (this.enemy.hp > 0 && Math.random() < 0.5) this.say('hit');
-								this.sfx('sfx_hit');
-								this.poof(fo.transform);
-								this.shake(2, 60);
-								// @ts-ignore
-								TweenManager.tween(this, 'hitmarker', 0, 300, 1, quadIn);
+							if (target !== this.player || this.iframes <= 0) {
+								target.hp -= 1;
+								if (target === this.player) {
+									if (this.player.hp > 0 && Math.random() < 0.5)
+										this.say('hurt');
+									this.hurt();
+									this.sfx('sfx_hurt');
+								} else {
+									if (this.enemy.hp > 0 && Math.random() < 0.5) this.say('hit');
+									this.sfx('sfx_hit');
+									this.poof(fo.transform);
+									this.shake(2, 60);
+									// @ts-ignore
+									TweenManager.tween(this, 'hitmarker', 0, 300, 1, quadIn);
+								}
 							}
 						}
 					},
