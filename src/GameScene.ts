@@ -170,22 +170,22 @@ export class GameScene extends GameObject {
 		this.camera.display.container.addChild(this.container);
 
 		// grid
-		for (let x = -this.fieldRadius * 1.5; x < this.fieldRadius * 1.5; x += 50) {
-			for (
-				let y = -this.fieldRadius * 1.5;
-				y < this.fieldRadius * 1.5;
-				y += 50
-			) {
+		for (let x = -this.fieldRadius; x < this.fieldRadius; x += 75) {
+			for (let y = -this.fieldRadius; y < this.fieldRadius; y += 75) {
 				const fo = new FieldObject('marker');
 				fo.transform.x = x;
 				fo.transform.y = y;
-				this.containerField.addChild(fo.display.container);
-				this.fieldObjects.push(fo);
+				if (this.outside(fo)) {
+					fo.destroy();
+				} else {
+					this.containerField.addChild(fo.display.container);
+					this.fieldObjects.push(fo);
+				}
 			}
 		}
 
 		// border
-		const borders = 200;
+		const borders = 180;
 		for (let i = 0; i < borders; ++i) {
 			const fo = new FieldObject('marker_edge');
 			fo.transform.x = Math.sin((i / borders) * Math.PI * 2) * this.fieldRadius;
@@ -395,7 +395,7 @@ export class GameScene extends GameObject {
 			removeFromArray(this.fieldObjects, i);
 		});
 		this.props.length = 0;
-		for (let i = 0; i < 20; ++i) {
+		for (let i = 0; i < 12; ++i) {
 			const fo = new FieldObject(
 				randItem(['tree_a', 'tree_b', 'tree_c', 'stump_a'])
 			);
