@@ -277,11 +277,13 @@ export class GameScene extends GameObject {
 							destroy();
 						}
 						const d = distance2(fo.transform, target.transform);
-						fo.spr.tint = utils.rgb2hex([
-							lerp(0.5, 1, clamp(0, 1 - d / 50000, 1)),
-							0,
-							0,
-						]);
+						if (i === this.enemy) {
+							fo.spr.tint = utils.rgb2hex([
+								lerp(0.5, 1, clamp(0, 1 - d / 50000, 1)),
+								0,
+								0,
+							]);
+						}
 						if (d < 20 ** 2 && !this.gameover) {
 							destroy();
 
