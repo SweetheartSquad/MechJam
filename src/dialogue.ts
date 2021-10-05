@@ -17,10 +17,16 @@ export const dialogue = {
 			'',
 			'AND THAT MAKES ME STRONG!!',
 		],
-		['You took her heart, now you must pay the price!', 'I already have...'],
+		[
+			'You took her heart...',
+			'',
+			'Now you must pay the price!',
+			'I already have...',
+		],
 		[
 			'Why did you betray us!?',
 			'In time you will understand that the dreams we dreamed...',
+			'',
 			'Were made of sand!!',
 		],
 		[
@@ -32,12 +38,10 @@ export const dialogue = {
 		],
 		['You betrayed us!', 'Nothing lost and nothing gained!'],
 		[
-			'Since we were kids, I knew we were always meant to stay together!',
-			"I don't need you anymore, I've had enough.",
-		],
-		[
 			'',
-			"By the time I'm done with you, you will have no time for grieving!",
+			"By the time I'm done with you...",
+			'',
+			'You will have no time for grieving!',
 			'ARGHHH!',
 		],
 		['', 'You come to look for a king? Here I am!', "I'll never submit!"],
@@ -46,20 +50,27 @@ export const dialogue = {
 			'',
 			'GYAHAHAHA!!!',
 			"What's wrong with you?",
+			'',
 			'Is there a hole in your soul?',
 		],
 		[
 			'Do we have to fight?',
 			'Battle is but a dance...',
+			'',
 			'I let the music speak!',
 		],
 		[
 			"We don't have to do this!",
+			'',
 			'I still have faith in you!',
 			'Then you truly are a fool!!',
 		],
 		['', "I've been waiting for you.", 'What? Why?', 'You... thrill me.'],
-		['How many times will you try and fail!', 'Mama mia, here we go again!'],
+		[
+			'',
+			'How many times will you try and fail!',
+			'Mamma mia, here we go again!',
+		],
 		['One of us...', 'Must die!!'],
 		['', 'You think you can win?', 'Take a chance on me!'],
 		['', 'You!?!!?', "That's me!"],
@@ -87,15 +98,15 @@ export const dialogue = {
 		],
 	],
 	lose: [
-		['Noo...', 'Young and sweet, only seventeen... Such a shame.'],
+		["No.. I can't...", 'Young and sweet, only seventeen... Such a shame.'],
 		[
 			'Aarghhh...',
 			'A battle won, but the war...',
 			'',
 			'It goes on and on and on.',
 		],
-		["Arghhhh!! I'll never forgive you!", 'Should I laugh or cry!?'],
-		["Gah.. Couldn't escape if I wanted to...", 'Wahaha!'],
+		['Arghhhh!!', '', "I'll never forgive you...", 'Should I laugh or cry!?'],
+		['Gah..', '', "Couldn't escape if I wanted to...", 'Wahaha!'],
 		['I tried to hold you back..', '', 'But you were stronger...', 'Oh yeah!!'],
 		[
 			'Graghhh..',
@@ -106,7 +117,7 @@ export const dialogue = {
 		],
 	],
 	win: [
-		["Bye Bye doesn't mean forever..."],
+		["Bye bye doesn't mean forever!", 'Perhaps it should...'],
 		[
 			"I didn't want things to end like this...",
 			"Please don't talk, go on, play...",
@@ -154,7 +165,8 @@ export const dialogue = {
 		['SOS!!'],
 		['', 'Clumsy, like a clown!'],
 		['Under attack!!'],
-		["Now look what you've done!", 'You own me one!'],
+		["Now look what you've done!", '', 'You owe me one!'],
+		['All this damage is gonna cost money money money!'],
 	],
 	// enemy hit
 	hit: [
@@ -173,7 +185,7 @@ export const dialogue = {
 		['Your father and sister are gone...', 'They deserved better!'],
 		[
 			"You're grieving deeply but still moving on...",
-			'You will die with the rest of those heartless fools!',
+			"You'll die with the rest of those heartless fools!",
 		],
 		['I hate to see you like this...', 'Then help me create a new world!'],
 		[
@@ -183,17 +195,25 @@ export const dialogue = {
 			"You'll never understand!",
 		],
 		[
-			'All the towns people..',
-			"Down in the street they're all singing, staying alive though the city is dead.",
+			"Down in the street they're all singing and shouting!",
+			'Staying alive though the city is dead.',
 			'You could save them! You had the power!',
 			'They are weak!',
 		],
 		[
 			'',
-			'Do you know why they call them "Advanced Bipedal Battle Armour"?',
+			"Advanced Bipedal Battle Armour. Fitting, isn't it?",
 			'Why?',
 			'Battle.',
+			'',
 			"That's the name of the game!",
+		],
+		['', "Soon we'll all live in a rich man's world...", '', 'MY WORLD!!!'],
+		[
+			'Since we were kids, I knew...',
+			'',
+			'We were always meant to stay together!',
+			"I don't need you anymore, I've had enough.",
 		],
 	],
 };
