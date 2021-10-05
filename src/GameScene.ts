@@ -481,10 +481,7 @@ export class GameScene extends GameObject {
 		}, Promise.resolve());
 		if (ref !== this.sayRef) return;
 		this.dialogueDelay =
-			2000 +
-			Math.random() * 10000 +
-			Math.random() * 10000 +
-			Math.random() * 10000;
+			1000 + Math.random() * 3000 + Math.random() * 3000 + Math.random() * 3000;
 	}
 
 	update(): void {
