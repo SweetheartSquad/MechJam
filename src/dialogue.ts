@@ -4,11 +4,6 @@
 export const dialogue = {
 	start: [
 		["I've been angry and sad about things that you do!", 'Then die mad!'],
-		[
-			'',
-			'You should have forgotten me like the rest.',
-			"I'll never let you go!",
-		],
 		["Don't say I didn't warn you!", 'How can I resist this!'],
 		[
 			'',
@@ -23,36 +18,9 @@ export const dialogue = {
 			'Now you must pay the price!',
 			'I already have...',
 		],
-		[
-			'Why did you betray us!?',
-			'In time you will understand that the dreams we dreamed...',
-			'',
-			'Were made of sand!!',
-		],
-		[
-			'',
-			'...',
-			'',
-			'This was just another town.',
-			'Give my restless soul a little patience.',
-		],
 		['You betrayed us!', 'Nothing lost and nothing gained!'],
-		[
-			'',
-			"By the time I'm done with you...",
-			'',
-			'You will have no time for grieving!',
-			'ARGHHH!',
-		],
 		['', 'You come to look for a king? Here I am!', "I'll never submit!"],
 		['', 'Does your mother know?', 'What?', 'That her child is about to die!?'],
-		[
-			'',
-			'GYAHAHAHA!!!',
-			"What's wrong with you?",
-			'',
-			'Is there a hole in your soul?',
-		],
 		[
 			'Do we have to fight?',
 			'Battle is but a dance...',
@@ -312,5 +280,37 @@ export const dialogue = {
 			'And NONE of us prepared to die!!',
 		],
 		['', 'The city is a nightmare.', '', 'A horrible dream!'],
+		[
+			'',
+			'You should have forgotten me like the rest.',
+			"I'll never let you go!",
+		],
+		[
+			'Why did you betray us!?',
+			'In time you will understand that the dreams we dreamed...',
+			'',
+			'Were made of sand!!',
+		],
+		[
+			'',
+			'...',
+			'',
+			'This was just another town.',
+			'Give my restless soul a little patience.',
+		],
+		[
+			'',
+			"By the time I'm done with you...",
+			'',
+			'You will have no time for grieving!',
+			'ARGHHH!',
+		],
+		[
+			'',
+			'GYAHAHAHA!!!',
+			"What's wrong with you?",
+			'',
+			'Is there a hole in your soul?',
+		],
 	],
 };
